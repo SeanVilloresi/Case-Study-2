@@ -7,6 +7,8 @@ import glob
 
 x_coordscenter1 = []
 y_coordscenter1 = []
+x_coordscenter2 = []
+y_coordscenter2 = []
 
 
 ##We could just make 10 seperate x and y arrays but that feels inefficient but also whocares?
@@ -18,6 +20,13 @@ with open("center1.txt", 'r') as my_file:
         y = float(values[1])
         x_coordscenter1.append(x)
         y_coordscenter1.append(y)
+with open("center2.txt", 'r') as my_file:
+    for line in my_file:
+        values = line.strip().split(', ')
+        x = float(values[0])
+        y = float(values[1])
+        x_coordscenter2.append(x)
+        y_coordscenter2.append(y)
 
 text_files = glob.glob(os.path.join("simplifiedtrajectory-points", '*.txt'))
 trajectories = {}
@@ -41,7 +50,7 @@ for file in text_files:
     trajectories[traj_num] = {'x' : a, 'y' : b}
 
 #print(trajectories)
-plt.plot(x_coordscenter1, y_coordscenter1, '-o', zorder = 3)
+plt.plot(x_coordscenter2, y_coordscenter2, '-o', zorder = 3)
 
 for i in range(10):
     plt.plot(trajectories[i]['x'], trajectories[i]['y'], '-o', alpha = .5)

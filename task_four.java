@@ -11,22 +11,22 @@ public class task_four {
 
         ArrayList<Trajectory> simplified_set=new ArrayList<>();
         //Simplify all Trajectories currently in our set
-        for (Trajectory p : set){
-            simplified_set.add(task_two.TS_greedy(p, 0.1));
-        }
+        // for (Trajectory p : set){
+        //     simplified_set.add(task_two.TS_greedy(p, 0.1));
+        // }
         
-        for (int i=0; i<simplified_set.size(); i++){
-                File_methods.createPointsFile("simplifiedtrajectory"+ i, simplified_set.get(i).points);
-             }
+        // for (int i=0; i<simplified_set.size(); i++){
+        //         File_methods.createPointsFile("simplifiedtrajectory"+ i, simplified_set.get(i).points);
+        //      }
         double minimumTotalDistance = Integer.MAX_VALUE;
         Trajectory currentCenter = null;
 
         //This may be too slow but im not sure
-        for (Trajectory p : simplified_set){
+        for (Trajectory p : set){
             double current = 0;
             
             //get total distance to all other trajectories
-            for (Trajectory q : simplified_set){
+            for (Trajectory q : set){
                 if (!(q.equals(p))){
                 current += task_three.dtw(p, q).stat;
                 }
@@ -37,6 +37,7 @@ public class task_four {
                 currentCenter = p;
             }
         }
+        System.out.println(minimumTotalDistance);
         return currentCenter;
     }
 
@@ -44,10 +45,9 @@ public class task_four {
         // OK WHAT WE GON DO IS TREAT THE X COORDINATE LIKE A TIME AND TAKE THE AVERAGE OF ALL THE Y VALUES AT THAT POINT
         // USE A THRESHOLD TO ACCOUNT FOR THE X COORDS NOT EXACTLY LINING UP (aka all x's 1-1.1 will be considered at "the same time")
         
-        ArrayList<Point> points = new ArrayList<>();
         
         double min_x = Double.MAX_VALUE;
-        double max_x = Double.MAX_VALUE; 
+        double max_x = Double.MIN_VALUE; 
         int max_traj_size = 0;
 
         for(Trajectory t : set){
@@ -60,6 +60,7 @@ public class task_four {
         double range  = max_x - min_x;
         double bin_width = range / max_traj_size;
 
+
         double[] x_sum = new double[max_traj_size];
         double[] y_sum = new double[max_traj_size];
         int[] num_points = new int[max_traj_size];
@@ -67,6 +68,7 @@ public class task_four {
         for(Trajectory t : set){
             for(Point p : t.points){
                 int bin = (int) ((p.x - min_x)/ bin_width);
+                if(bin == max_traj_size) bin = bin - 1;
                 x_sum[bin] = x_sum[bin] + p.x;
                 y_sum[bin] = y_sum[bin] + p.y;
                 num_points[bin] = num_points[bin] + 1;
@@ -76,13 +78,17 @@ public class task_four {
         Trajectory ret = new Trajectory("center");
 
         for(int i = 0; i < max_traj_size; i++){
+            if(num_points[i] == 0) continue;
             ret.points.add(new Point(x_sum[i] / num_points[i], y_sum[i] / num_points[i]));
         }
 
-
-
-            
-
+        double minimumTotalDistance = 0;
+        for (Trajectory p : set){
+            //System.out.println(p.points.size());
+            minimumTotalDistance += task_three.dtw(ret, p).stat;
+        }
+        System.out.println(minimumTotalDistance);
+        //System.out.println(ret.points.size());
         return ret;
     }
 
@@ -104,7 +110,7 @@ public class task_four {
         Trajectory first_method = center1(set);
 
         //Not created yet lol
-        //Trajectory second_method =center2(set);
+        Trajectory second_method =center2(set);
 
         //Just used to create point files for all trajectories in trajectory-ids
         // for (int i=0; i<set.size(); i++){
@@ -112,7 +118,7 @@ public class task_four {
         // }
 
         //File_methods.createPointsFile("center1", first_method.points);
-        //File_methods.createPointsFile("center2", second_method.points);
+        File_methods.createPointsFile("center2", second_method.points);
         
         
 
