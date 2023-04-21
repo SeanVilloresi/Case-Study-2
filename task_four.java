@@ -41,38 +41,34 @@ public class task_four {
         return currentCenter;
     }
 
+    
+
+
+
+
     public static Trajectory center2(ArrayList<Trajectory> set){
         // OK WHAT WE GON DO IS TREAT THE X COORDINATE LIKE A TIME AND TAKE THE AVERAGE OF ALL THE Y VALUES AT THAT POINT
         // USE A THRESHOLD TO ACCOUNT FOR THE X COORDS NOT EXACTLY LINING UP (aka all x's 1-1.1 will be considered at "the same time")
         
-        
-        double min_x = Double.MAX_VALUE;
-        double max_x = Double.MIN_VALUE; 
         int max_traj_size = 0;
 
         for(Trajectory t : set){
-            max_traj_size = Math.max(max_traj_size, t.points.size());
-            for(Point p : t.points){
-                if(p.x < min_x) min_x = p.x;
-                if(p.x > max_x) max_x = p.x;
-            }      
+            max_traj_size = Math.max(max_traj_size, t.points.size());   
         }
-        double range  = max_x - min_x;
-        double bin_width = range / max_traj_size;
 
 
         double[] x_sum = new double[max_traj_size];
         double[] y_sum = new double[max_traj_size];
         int[] num_points = new int[max_traj_size];
 
-        for(Trajectory t : set){
-            for(Point p : t.points){
-                int bin = (int) ((p.x - min_x)/ bin_width);
-                if(bin == max_traj_size) bin = bin - 1;
-                x_sum[bin] = x_sum[bin] + p.x;
-                y_sum[bin] = y_sum[bin] + p.y;
-                num_points[bin] = num_points[bin] + 1;
-            }      
+        for(int i = 0; i < max_traj_size; i++){
+            for(Trajectory t : set){
+                if(t.points.size() - i - 1 < 0) continue;
+                x_sum[i] = x_sum[i] + t.points.get(i).x;
+                y_sum[i] = y_sum[i] + t.points.get(i).y;
+                num_points[i] = num_points[i] + 1;
+            }
+                
         }
 
         Trajectory ret = new Trajectory("center");
@@ -84,11 +80,9 @@ public class task_four {
 
         double minimumTotalDistance = 0;
         for (Trajectory p : set){
-            //System.out.println(p.points.size());
             minimumTotalDistance += task_three.dtw(ret, p).stat;
         }
         System.out.println(minimumTotalDistance);
-        //System.out.println(ret.points.size());
         return ret;
     }
 
@@ -111,6 +105,8 @@ public class task_four {
 
         //Not created yet lol
         Trajectory second_method =center2(set);
+
+       
 
         //Just used to create point files for all trajectories in trajectory-ids
         // for (int i=0; i<set.size(); i++){
