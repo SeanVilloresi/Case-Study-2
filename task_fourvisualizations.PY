@@ -28,14 +28,14 @@ with open("center2.txt", 'r') as my_file:
         x_coordscenter2.append(x)
         y_coordscenter2.append(y)
 
-text_files = glob.glob(os.path.join("simplifiedtrajectory-points", '*.txt'))
+text_files = glob.glob(os.path.join("trajectory-points", '*.txt'))
 trajectories = {}
 ##read in all the trajectories
 for file in text_files:
     with open(file, 'r') as my_file:
         #print(file)
         if file.endswith('.txt'):
-            traj_num = int(file.replace('simplifiedtrajectory-points\\simplifiedtrajectory', '').replace('.txt', ''))
+            traj_num = int(file.replace('trajectory-points\\trajectory', '').replace('.txt', ''))
             a = []
             b = []
         for line in my_file:
@@ -50,7 +50,7 @@ for file in text_files:
     trajectories[traj_num] = {'x' : a, 'y' : b}
 
 #print(trajectories)
-plt.plot(x_coordscenter2, y_coordscenter2, '-o', zorder = 3)
+plt.plot(x_coordscenter2, y_coordscenter2, '-o', zorder = 3, color = "red")
 
 for i in range(10):
     plt.plot(trajectories[i]['x'], trajectories[i]['y'], '-o', alpha = .5)
