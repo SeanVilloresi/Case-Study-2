@@ -7,28 +7,7 @@ import glob
 
 x_coordscenter1 = []
 y_coordscenter1 = []
-x_coords0 = []
-y_coords0 = []
-x_coords1 = []
-y_coords1 = []
-x_coords2 = []
-y_coords2= []
-x_coords3 = []
-y_coords3 = []
-x_coords4 = []
-y_coords4 = []
-x_coords5 = []
-y_coords5 = []
-x_coords6 = []
-y_coords6 = []
-x_coords7 = []
-y_coords7 = []
-x_coords8 = []
-y_coords8 = []
-x_coords9 = []
-y_coords9 = []
-x_coords10 = []
-y_coords10 = []
+
 
 ##We could just make 10 seperate x and y arrays but that feels inefficient but also whocares?
 
