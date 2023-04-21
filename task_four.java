@@ -38,6 +38,7 @@ public class task_four {
     public static Trajectory center2(ArrayList<Trajectory> set){
         // OK WHAT WE GON DO IS TREAT THE X COORDINATE LIKE A TIME AND TAKE THE AVERAGE OF ALL THE Y VALUES AT THAT POINT
         // USE A THRESHOLD TO ACCOUNT FOR THE X COORDS NOT EXACTLY LINING UP (aka all x's 1-1.1 will be considered at "the same time")
+        
         ArrayList<Trajectory> simplified_set=new ArrayList<>();
         //Simplify all Trajectories currently in our set
         for (Trajectory p : set){
