@@ -13,7 +13,7 @@ public class task_four {
             simplified_set.add(task_two.TS_greedy(p, 0.1));
         }
         
-        double minimumTotalDistance = 99999999;
+        double minimumTotalDistance = Integer.MAX_VALUE;
         Trajectory currentCenter = null;
 
         //This may be too slow but im not sure
@@ -26,7 +26,7 @@ public class task_four {
                 current += task_three.dtw(p, q).stat;
                 }
             }
-            //if less then min so far, update min and currentCenter(which is what will be returned)
+            //if less than min so far, update min and currentCenter(which is what will be returned)
             if (current<minimumTotalDistance){
                 minimumTotalDistance = current;
                 currentCenter = p;
