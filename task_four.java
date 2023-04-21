@@ -43,26 +43,31 @@ public class task_four {
 
 
     public static void main(String[] args) throws Exception {
-        //Set is right
+        //Create set and put all the points for all the trajectories into an arraylist
         ArrayList<Trajectory> set = File_methods.readTrajectoriesFromFile("trajectory-ids.txt");
         ArrayList<Point> points = File_methods.read_points_from_csv("geolife-cars-upd8.csv");
-
+        
+        //Add points to all the trajectories
         for (Trajectory p : set){
             for(int i = 0; i < points.size(); i++){
                 if(points.get(i).id.equals(p.id)) p.points.add(points.get(i));  
-
             }
         }
 
-
         //System.out.print(set.get(2).points.size());
-        Trajectory firstmethod = center1(set);
+        Trajectory first_method = center1(set);
 
+        //Not created yet lol
+        //Trajectory second_method =center2(set);
+
+        //Just used to create point files for all trajectories in trajectory-ids
+        // for (int i=0; i<set.size(); i++){
+        //     File_methods.createPointsFile("trajectory"+ i, set.get(i).points);
+        // }
+
+        File_methods.createPointsFile("center1", first_method.points);
+        //File_methods.createPointsFile("center2", second_method.points);
         
-        File_methods.createPointsFile("center1", firstmethod.points);
-        for (int i=0; i<set.size(); i++){
-            File_methods.createPointsFile("trajectory"+ i, set.get(i).points);
-        }
         
 
     }
