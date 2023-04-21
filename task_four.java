@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class task_four {
@@ -5,7 +6,7 @@ public class task_four {
     //Essentially, come up with a trajectory Tc that is a center trajectory between two others
     //Minimizes distance between itself and both trajectories respecivelly
 
-    public static Trajectory center1(ArrayList<Trajectory> set){
+    public static Trajectory center1(ArrayList<Trajectory> set) throws IOException{
 
         ArrayList<Trajectory> simplified_set=new ArrayList<>();
         //Simplify all Trajectories currently in our set
@@ -13,6 +14,9 @@ public class task_four {
             simplified_set.add(task_two.TS_greedy(p, 0.1));
         }
         
+        for (int i=0; i<simplified_set.size(); i++){
+                File_methods.createPointsFile("simplifiedtrajectory"+ i, simplified_set.get(i).points);
+             }
         double minimumTotalDistance = Integer.MAX_VALUE;
         Trajectory currentCenter = null;
 
