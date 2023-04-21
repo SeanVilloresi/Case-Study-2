@@ -4,21 +4,35 @@ import java.io.*;
 
 //this is a class for our methods we use to read CSVs and create text files
 public class File_methods {
+
+    //read a textfile into a Trajectory ArrayList
+    public static ArrayList<Trajectory> readTrajectoriesFromFile(String filename) throws IOException {
+        ArrayList<Trajectory> trajectories = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(filename));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String id = line.trim(); 
+            Trajectory trajectory = new Trajectory(id); 
+            trajectories.add(trajectory);
+        }
+        reader.close();
+        return trajectories;
+    }
     
     //read a CSV into a points array
     public static ArrayList<Point> read_points_from_csv(String file_path) throws FileNotFoundException{
         Scanner s = new Scanner(new File(file_path));
         s.useDelimiter(",|\\n");
         ArrayList<Point> points = new ArrayList<>();
-        for(int i = 0; i < 4; i++){
-            String waste = s.next();
-        }
+         for(int i = 0; i < 3; i++){
+             String waste = s.next();
+         }
         while (s.hasNext()) {
-            String date = s.next();
+            //String date = s.next();
             String id = s.next();
             String x_var = s.next();
             String y_var = s.next();
-            points.add(new Point(date, id, Double.parseDouble(x_var), Double.parseDouble(y_var)));
+            points.add(new Point("N/A", id, Double.parseDouble(x_var), Double.parseDouble(y_var)));
         }
 
         s.close();
