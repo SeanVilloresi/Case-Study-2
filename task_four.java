@@ -50,15 +50,19 @@ public class task_four {
         for (Trajectory p : set){
             for(int i = 0; i < points.size(); i++){
                 if(points.get(i).id.equals(p.id)) p.points.add(points.get(i));  
+
             }
         }
 
 
-        System.out.print(set.get(2).points.size());
+        //System.out.print(set.get(2).points.size());
         Trajectory firstmethod = center1(set);
 
         
-        File_methods.createPointsFile("center", firstmethod.points);
+        File_methods.createPointsFile("center1", firstmethod.points);
+        for (int i=0; i<set.size(); i++){
+            File_methods.createPointsFile("trajectory"+ i, set.get(i).points);
+        }
         
 
     }
