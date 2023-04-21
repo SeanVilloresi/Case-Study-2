@@ -25,9 +25,6 @@ public class task_five {
     }
 
 
-
-
-
     public static void main (String[] args){
 
     }

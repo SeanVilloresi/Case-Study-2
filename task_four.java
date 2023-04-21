@@ -94,22 +94,23 @@ public class task_four {
         // USE A THRESHOLD TO ACCOUNT FOR THE X COORDS NOT EXACTLY LINING UP (aka all x's 1-1.1 will be considered at "the same time")
         
         int max_traj_size = 0;
+        int max_traj_dex = 0;
 
-        for(Trajectory t : set){
-            max_traj_size = Math.max(max_traj_size, t.points.size());   
+        for(int i = 0; i < set.size(); i++){
+            max_traj_size = Math.max(max_traj_size, set.get(i).points.size());
+            if(set.get(i).points.size() == max_traj_size) max_traj_dex = i; 
         }
 
-        int mid_dex = set.get(0).points.size() / 2;
+        int mid_dex = set.get(max_traj_dex).points.size() / 2;
 
         int[] paired_point_dexes = new int[set.size()];
-        paired_point_dexes[0] = mid_dex;
 
-        for(int i = 1; i < set.size(); i++){
+        for(int i = 0; i < set.size(); i++){
             ArrayList<Point> p = set.get(i).points;
             double min_dist = Double.MAX_VALUE;
             int dex = 0;
             for(int j = 0; j < p.size(); j++){
-                double dist = set.get(0).points.get(mid_dex).dist(p.get(j));
+                double dist = set.get(max_traj_dex).points.get(mid_dex).dist(p.get(j));
                 if(dist < min_dist){
                     min_dist = dist;
                     dex = j;
@@ -183,7 +184,7 @@ public class task_four {
         // }
 
         //File_methods.createPointsFile("center1", first_method.points);
-        File_methods.createPointsFile("center2", second_method.points);
+        File_methods.createPointsFile("center2", third_method.points);
         
         
 
