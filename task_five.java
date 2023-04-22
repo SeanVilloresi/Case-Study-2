@@ -1,6 +1,8 @@
+import java.io.IOException;
 import java.util.*;
 import java.util.Random;
 import java.util.HashSet;
+import java.util.HashMap;
 
 
 public class task_five {
@@ -31,17 +33,70 @@ public class task_five {
 
         return null;
     }
-    public static ArrayList<Trajectory> lloyds(String method, ArrayList<Trajectory> set, int k){
-        ArrayList<Trajectory> initialCenters;
 
-        if (method.equals("Random")) initialCenters = randomSeed(set, k);
-        else if (method.equals("OurSeed")) initialCenters = ourSeed(set, k);
-        else throw new IllegalArgumentException("Invalid String Passed");
+    public static HashMap<Trajectory, ArrayList<Trajectory>> lloyds(String method, ArrayList<Trajectory> set, int k) throws IOException{
         
-       
+        ArrayList<Trajectory> centers;
 
+        if (method.equals("Random")) centers = randomSeed(set, k);
+        else if (method.equals("OurSeed")) centers = ourSeed(set, k);
+        else throw new IllegalArgumentException("Invalid String Passed");
 
-        return null;
+        int T_MAX = 20; 
+
+        HashMap<Integer, Integer> center_assignments = new HashMap<>();
+        ArrayList<Trajectory>[] clusters = new ArrayList[k];
+
+        for(ArrayList<Trajectory> list : clusters){
+            list = new ArrayList<>();
+        }
+
+        for(int i = 0; i < set.size(); i++){
+            center_assignments.put(i, -1); 
+        }
+            
+        boolean repeat = true;
+
+        while(repeat && T_MAX > 0){
+
+            repeat = false;
+            for(ArrayList<Trajectory> cluster : clusters){
+                cluster.clear();
+            }
+
+            for(int i = 0; i < set.size(); i++){
+                double min_score = Double.MAX_VALUE;
+                int min_dex = -1;
+                for(int j = 0; j < k; j++){
+                    double cur_score = task_three.dtw(set.get(i), centers.get(j)).stat;
+                    if(cur_score < min_score){
+                        min_score = cur_score;
+                        min_dex = j;
+                    }
+                }
+                if(center_assignments.get(i) != min_dex){
+                    repeat = true;
+                }
+
+                clusters[min_dex].add(set.get(i));
+                center_assignments.put(i, min_dex);
+            }
+            
+            for(int i = 0; i < k; i++){
+                centers.add(i, task_four.center1(clusters[i]));
+            }
+
+            T_MAX--;
+
+        }
+
+        HashMap<Trajectory, ArrayList<Trajectory>> ret = new HashMap<>();
+
+        for(int i = 0; i < k; i++){
+            ret.put(centers.get(i), clusters[i]);
+        }
+
+        return ret;
     }
 
 
