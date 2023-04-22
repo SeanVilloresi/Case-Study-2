@@ -23,6 +23,7 @@ public class task_five {
         ArrayList<Trajectory> ret = new ArrayList<>();
 
         for(int dex : seeds){
+            set.get(dex).center_cost = 0;
             ret.add(set.get(dex));
         }
             
@@ -42,7 +43,7 @@ public class task_five {
         else if (method.equals("OurSeed")) centers = ourSeed(set, k);
         else throw new IllegalArgumentException("Invalid String Passed");
 
-        int T_MAX = 20; 
+        int T_MAX = 30; 
 
         HashMap<Integer, Integer> center_assignments = new HashMap<>();
         ArrayList<Trajectory>[] clusters = new ArrayList[k];
@@ -84,11 +85,27 @@ public class task_five {
             
             for(int i = 0; i < k; i++){
                 
-                if(clusters[i].size() == 0){
+                if(clusters[i].size() <= 20){
+
+                    double max_cost = 0;
+                    int max_cost_dex = -1;
+
+                    for(int j = 0; j < k; j++){
+                        
+                        
+                        if(centers.get(j).center_cost >= max_cost && clusters[j].size() >= 20){
+                            max_cost = centers.get(j).center_cost;
+                            max_cost_dex = j;
+                        }
+                        
+                    }
+
                     Random random = new Random();
-                    int randomInt = random.nextInt(set.size());
-                    center_assignments.put(randomInt, i);
-                    clusters[i].add(set.get(randomInt));
+                    for(int j = 0; j < 20; j++){
+                        int randomInt = random.nextInt(clusters[max_cost_dex].size());
+                        clusters[i].add(clusters[max_cost_dex].get(randomInt));
+                        clusters[max_cost_dex].remove(randomInt);
+                    }
                 }
                 centers.set(i, task_four.center3(clusters[i]));
                 System.out.println(clusters[i].size());
@@ -122,10 +139,6 @@ public class task_five {
 
         set.clear();
 
-        int min_size = Integer.MAX_VALUE;
-        int zeros = 0;
-        String min_id = "";
-
         for (Map.Entry<String, ArrayList<Point>> entry : everything.entrySet()) {
             Trajectory t = new Trajectory(entry.getKey());
             for(Point p : entry.getValue()){
@@ -133,15 +146,8 @@ public class task_five {
             }
             t = task_two.TS_greedy(t, 0.03);
             set.add(t);
-            if(t.points.size() <= min_size){
-                min_size = t.points.size();
-                min_id = t.id;
-            }
-            if(t.points.size() == 0) zeros++;
         }
-        System.out.println(zeros);
-        System.out.println(min_id);
-        System.out.println(min_size);
+
             
         lloyds("Random", set, 10);
         
