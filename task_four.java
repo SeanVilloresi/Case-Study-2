@@ -9,15 +9,6 @@ public class task_four {
 
     public static Trajectory center1(ArrayList<Trajectory> set) throws IOException{
 
-        ArrayList<Trajectory> simplified_set=new ArrayList<>();
-        //Simplify all Trajectories currently in our set
-        // for (Trajectory p : set){
-        //     simplified_set.add(task_two.TS_greedy(p, 0.1));
-        // }
-        
-        // for (int i=0; i<simplified_set.size(); i++){
-        //         File_methods.createPointsFile("simplifiedtrajectory"+ i, simplified_set.get(i).points);
-        //      }
         double minimumTotalDistance = Integer.MAX_VALUE;
         Trajectory currentCenter = null;
 
@@ -176,6 +167,20 @@ public class task_four {
 
         Trajectory third_method =center3(set);
 
+        ArrayList<Trajectory> simplified_set=new ArrayList<>();
+        //Simplify all Trajectories currently in our set
+        for (Trajectory p : set){
+             simplified_set.add(task_two.TS_greedy(p, 0.1));
+        }
+
+        center1(simplified_set);
+        center2(simplified_set);
+        center3(simplified_set);
+        
+        // for (int i=0; i<simplified_set.size(); i++){
+        //         File_methods.createPointsFile("simplifiedtrajectory"+ i, simplified_set.get(i).points);
+        //      }
+
        
 
         //Just used to create point files for all trajectories in trajectory-ids
@@ -184,7 +189,7 @@ public class task_four {
         // }
 
         //File_methods.createPointsFile("center1", first_method.points);
-        File_methods.createPointsFile("center2", third_method.points);
+        //File_methods.createPointsFile("center2", third_method.points);
         
         
 
