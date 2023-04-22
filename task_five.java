@@ -34,7 +34,7 @@ public class task_five {
         return null;
     }
 
-    public static HashMap<Trajectory, ArrayList<Trajectory>> lloyds(String method, ArrayList<Trajectory> set, int k) throws IOException{
+    public static Clustering lloyds(String method, ArrayList<Trajectory> set, int k) throws IOException{
         
         ArrayList<Trajectory> centers;
 
@@ -90,11 +90,8 @@ public class task_five {
 
         }
 
-        HashMap<Trajectory, ArrayList<Trajectory>> ret = new HashMap<>();
+        Clustering ret = new Clustering(centers, clusters);
 
-        for(int i = 0; i < k; i++){
-            ret.put(centers.get(i), clusters[i]);
-        }
 
         return ret;
     }
