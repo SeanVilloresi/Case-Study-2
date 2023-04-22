@@ -4,6 +4,22 @@ import java.io.*;
 
 //this is a class for our methods we use to read CSVs and create text files
 public class File_methods {
+    //read a textfile into a trajectory arraylist when points are present as well
+    public static ArrayList<Trajectory> readTrajectoriesFromcsv(String filename) throws IOException {
+        ArrayList<Trajectory> trajectories = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(filename));
+        reader.readLine();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String id = line.trim(); 
+            int index = id.indexOf(',', 0);
+            id = id.substring(0, index);
+            Trajectory trajectory = new Trajectory(id); 
+            trajectories.add(trajectory);
+        }
+        reader.close();
+        return trajectories;
+    }
 
     //read a textfile into a Trajectory ArrayList
     public static ArrayList<Trajectory> readTrajectoriesFromFile(String filename) throws IOException {
@@ -38,6 +54,10 @@ public class File_methods {
         s.close();
         return points;
     }
+
+    
+
+
     //write out to a file given an array of points
     public static void createPointsFile(String file, ArrayList<Point> arrData)
             throws IOException {
