@@ -56,7 +56,19 @@ public class File_methods {
     }
 
     
+    //write a Cluster Object into a file that has all the points that make up its center
+    public static void createClusterCenterFile(String file, Clustering cluster) throws IOException{
+        FileWriter writer = new FileWriter(file + ".txt");
+        int size =0;
+        for (int i=0; i<cluster.centers.size(); i++){
+            for (Point q : cluster.centers.get(i).points){
+                writer.write(cluster.centers.get(i).id + i + "," + q.x + "," + q.y + "\n");
 
+            }
+        }
+
+        writer.close();
+    }
 
     //write out to a file given an array of points
     public static void createPointsFile(String file, ArrayList<Point> arrData)

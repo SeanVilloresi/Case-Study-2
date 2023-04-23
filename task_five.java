@@ -71,6 +71,7 @@ public class task_five {
         else throw new IllegalArgumentException("Invalid String Passed");
 
         int T_MAX = 30; 
+        int yoinkSize = set.size() / (k*2);
 
         HashMap<Integer, Integer> center_assignments = new HashMap<>();
         ArrayList<Trajectory>[] clusters = new ArrayList[k];
@@ -120,14 +121,14 @@ public class task_five {
 
                     for(int j = 0; j < k; j++){
                         
-                        
-                        if(centers.get(j).center_cost >= max_cost && clusters[j].size() >= 40){
+                        //checks to see if clusters meet our conditions to have trajectories yoinked
+                        if(centers.get(j).center_cost >= max_cost && clusters[j].size() >= yoinkSize){
                             max_cost = centers.get(j).center_cost;
                             max_cost_dex = j;
                         }
                         
                     }
-
+                    //Essentially takes 10 trajectories from our "worst" cluster cost wise at random to give to a cluster thats too small
                     Random random = new Random();
                     for(int j = 0; j < 10; j++){
                         int randomInt = random.nextInt(clusters[max_cost_dex].size());
@@ -140,6 +141,7 @@ public class task_five {
             }
 
             T_MAX--;
+            //Checking to see if our current iteration is our new overall best iteration
             int temp=0;
             for (Trajectory p : centers) temp += p.center_cost;
             if (temp<currentBest){
@@ -147,7 +149,7 @@ public class task_five {
                 currentBestC = new Clustering(centers,clusters);
                 currentBestC.cost=currentBest;
             }
-
+            //Debug statements
             System.out.println("Sum:" + temp);
             System.out.println("NEXT ITER");
         }
@@ -194,8 +196,10 @@ public class task_five {
 
             
         //lloyds("Random", set, 10);
-        System.out.print(lloyds("OurSeed", set, 12).cost);
+        System.out.print(set.size());
+        Clustering k10 = lloyds("OurSeed", set, 10);
         
+        File_methods.createClusterCenterFile("k10centers", k10);
         
     }
 }
