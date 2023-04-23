@@ -190,7 +190,7 @@ public class task_five {
             for(Point p : entry.getValue()){
                 t.points.add(p);
             }
-            t = task_two.TS_greedy(t, 0.03);
+            t = task_two.TS_greedy(t, 0.01);
             set.add(t);
         }
 

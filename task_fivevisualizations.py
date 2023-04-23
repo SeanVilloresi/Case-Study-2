@@ -29,15 +29,15 @@ for i in range(10):
 x_vals = []
 y_vals = []
 
-#with open('geolife-cars-upd8.csv', newline='') as csvfile:
-#    reader = csv.reader(csvfile)
-#    next(reader)
-#    for row in reader:
-#        # Assuming the ID column is not needed
-#        _, x, y = row
-#        #print(x)
-#        x_vals.append(float(x))
-#        y_vals.append(float(y))
-#plt.scatter(x_vals, y_vals, alpha=.1)
+with open('geolife-cars-upd8.csv', newline='') as csvfile:
+    reader = csv.reader(csvfile)
+    next(reader)
+    for row in reader:
+        # Assuming the ID column is not needed
+        _, x, y = row
+        #print(x)
+        x_vals.append(float(x))
+        y_vals.append(float(y))
+plt.scatter(x_vals, y_vals, alpha=.1)
 
 plt.show()
