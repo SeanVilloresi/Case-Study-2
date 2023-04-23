@@ -43,7 +43,7 @@ public class task_five {
         else if (method.equals("OurSeed")) centers = ourSeed(set, k);
         else throw new IllegalArgumentException("Invalid String Passed");
 
-        int T_MAX = 30; 
+        int T_MAX = 100; 
 
         HashMap<Integer, Integer> center_assignments = new HashMap<>();
         ArrayList<Trajectory>[] clusters = new ArrayList[k];
@@ -93,7 +93,7 @@ public class task_five {
                     for(int j = 0; j < k; j++){
                         
                         
-                        if(centers.get(j).center_cost >= max_cost && clusters[j].size() >= 20){
+                        if(centers.get(j).center_cost >= max_cost && clusters[j].size() >= 40){
                             max_cost = centers.get(j).center_cost;
                             max_cost_dex = j;
                         }
@@ -108,10 +108,13 @@ public class task_five {
                     }
                 }
                 centers.set(i, task_four.center3(clusters[i]));
-                System.out.println(clusters[i].size());
+                //System.out.println(clusters[i].size());
             }
 
             T_MAX--;
+            int temp=0;
+            for (Trajectory p : centers) temp += p.center_cost;
+            System.out.println("Sum:" + temp);
             System.out.println("NEXT ITER");
         }
 
@@ -125,7 +128,7 @@ public class task_five {
     public static void main (String[] args) throws Exception{
         ArrayList<Trajectory> set = File_methods.readTrajectoriesFromcsv("geolife-cars-upd8.csv");
         ArrayList<Point> points = File_methods.read_points_from_csv("geolife-cars-upd8.csv");
-        System.out.println(set.get(3).id);
+        //System.out.println(set.get(3).id);
         
         HashMap<String, ArrayList<Point>> everything = new HashMap<>();
 
@@ -149,7 +152,7 @@ public class task_five {
         }
 
             
-        lloyds("Random", set, 10);
+        lloyds("Random", set, 12);
         
         
     }
