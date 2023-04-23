@@ -28,6 +28,7 @@ public class task_four {
                 currentCenter = p;
             }
         }
+        currentCenter.center_cost = minimumTotalDistance;
         //System.out.println(minimumTotalDistance);
         return currentCenter;
     }

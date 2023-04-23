@@ -30,9 +30,36 @@ public class task_five {
         return ret;
     }
 
-    public static ArrayList<Trajectory> ourSeed(ArrayList<Trajectory> set, int k){
+    public static Trajectory chooseNextCenter(ArrayList<Trajectory> set, ArrayList<Trajectory> centers){
+        double[] distances = new double[set.size()];
+        double sumDistances = 0;
 
+        for (int i=0; i<set.size(); i++){
+            double minDistance = Double.MAX_VALUE;
+            for (Trajectory center : centers) {
+                double distance = task_three.dtw(set.get(i), center).stat;
+                if (distance < minDistance) minDistance = distance;
+            }
+        
+        distances[i] = minDistance;
+        sumDistances += distances[i];
+        }
+        double rand = Math.random() * sumDistances;
+        double cumulativeSum = 0;
+        for (int i=0; i< set.size(); i++) {
+            cumulativeSum += distances[i];
+            if (cumulativeSum >= rand) return set.get(i);          
+        }
+        //shouldnt ever hit
         return null;
+    }
+    public static ArrayList<Trajectory> ourSeed(ArrayList<Trajectory> set, int k){
+        ArrayList<Trajectory> centers = new ArrayList<>();
+        for (int i= 0; i<k; i++){
+            Trajectory temp = chooseNextCenter(set, centers);
+            centers.add(temp);
+        }
+        return centers;
     }
 
     public static Clustering lloyds(String method, ArrayList<Trajectory> set, int k) throws IOException{
@@ -43,7 +70,7 @@ public class task_five {
         else if (method.equals("OurSeed")) centers = ourSeed(set, k);
         else throw new IllegalArgumentException("Invalid String Passed");
 
-        int T_MAX = 100; 
+        int T_MAX = 30; 
 
         HashMap<Integer, Integer> center_assignments = new HashMap<>();
         ArrayList<Trajectory>[] clusters = new ArrayList[k];
@@ -57,7 +84,8 @@ public class task_five {
         }
             
         boolean repeat = true;
-
+        int currentBest = 99999999;
+        Clustering currentBestC = null;
         while(repeat && T_MAX > 0){
 
             repeat = false;
@@ -85,7 +113,7 @@ public class task_five {
             
             for(int i = 0; i < k; i++){
                 
-                if(clusters[i].size() <= 20){
+                if(clusters[i].size() <= 10){
 
                     double max_cost = 0;
                     int max_cost_dex = -1;
@@ -101,7 +129,7 @@ public class task_five {
                     }
 
                     Random random = new Random();
-                    for(int j = 0; j < 20; j++){
+                    for(int j = 0; j < 10; j++){
                         int randomInt = random.nextInt(clusters[max_cost_dex].size());
                         clusters[i].add(clusters[max_cost_dex].get(randomInt));
                         clusters[max_cost_dex].remove(randomInt);
@@ -114,11 +142,24 @@ public class task_five {
             T_MAX--;
             int temp=0;
             for (Trajectory p : centers) temp += p.center_cost;
+            if (temp<currentBest){
+                currentBest = temp;
+                currentBestC = new Clustering(centers,clusters);
+                currentBestC.cost=currentBest;
+            }
+
             System.out.println("Sum:" + temp);
             System.out.println("NEXT ITER");
         }
 
+        //Below we set up our final clustering and compare it to the "best" one through all our trials, and then determine which to use based on cost.
+        int temp = 0;
         Clustering ret = new Clustering(centers, clusters);
+        for (Trajectory p : ret.centers) temp += p.center_cost;
+        ret.cost=temp;
+
+
+        if (ret.cost>currentBestC.cost) return currentBestC;
 
 
         return ret;
@@ -152,7 +193,8 @@ public class task_five {
         }
 
             
-        lloyds("Random", set, 12);
+        //lloyds("Random", set, 10);
+        System.out.print(lloyds("OurSeed", set, 12).cost);
         
         
     }
