@@ -53,6 +53,7 @@ public class task_five {
         //shouldnt ever hit
         return null;
     }
+    
     public static ArrayList<Trajectory> ourSeed(ArrayList<Trajectory> set, int k){
         ArrayList<Trajectory> centers = new ArrayList<>();
         for (int i= 0; i<k; i++){
@@ -85,7 +86,7 @@ public class task_five {
         }
             
         boolean repeat = true;
-        int currentBest = 99999999;
+        int currentBest = Integer.MAX_VALUE;
         Clustering currentBestC = null;
         while(repeat && T_MAX > 0){
 
