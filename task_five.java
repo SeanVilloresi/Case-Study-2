@@ -211,9 +211,9 @@ public class task_five {
         //Clustering k10 = lloyds("OurSeed", set, 10);
         
         //File_methods.createClusterCenterFile("k10centers", k10);
-        //for (int i=0; i<10;i++){
-        File_methods.computeAveragesFile("ourseedAverages", "OurSeed", set);
-        //}
+        for (int i=0; i<10;i++){
+        File_methods.computeAveragesFile("ourseedAverages" + i, "OurSeed", set);
+        }
         
     }
 }

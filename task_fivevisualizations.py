@@ -74,6 +74,6 @@ def graphAll():
 #graph_Averages()
 #plt.legend()
 
-graphk10Centers()
-graphAll()
+#graphk10Centers()
+#graphAll()
 plt.show()

@@ -1,5 +1,5 @@
-For k = 4, average cost =2540
-For k = 6, average cost =1240
-For k = 8, average cost =457
-For k = 10, average cost =184
-For k = 12, average cost =161
+For k = 4, average cost =2240
+For k = 6, average cost =1708
+For k = 8, average cost =433
+For k = 10, average cost =181
+For k = 12, average cost =280
