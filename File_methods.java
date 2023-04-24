@@ -55,8 +55,34 @@ public class File_methods {
         return points;
     }
 
-    
+    public static void computeAveragesFile(String file, String method,  ArrayList<Trajectory> set) throws IOException{
+        FileWriter writer = new FileWriter(file + ".txt");
 
+        for (int i=4;i<=12;i+=2){
+            int sum=0;
+            System.out.print(i);
+            for (int j=0; j<3;j++){
+                System.out.print("run" + j);
+                sum+=task_five.lloyds(method, set, i).cost;
+            }
+            writer.write("For k = "+ i + ", average cost =" + sum/3 + "\n");
+        }
+        writer.close();
+
+    }
+    //write a Cluster Object into a file that has all the points that make up its center
+    public static void createClusterCenterFile(String file, Clustering cluster) throws IOException{
+        FileWriter writer = new FileWriter(file + ".txt");
+        int size =0;
+        for (int i=0; i<cluster.centers.size(); i++){
+            for (Point q : cluster.centers.get(i).points){
+                writer.write(cluster.centers.get(i).id + i + "," + q.x + "," + q.y + "\n");
+
+            }
+        }
+
+        writer.close();
+    }
 
     //write out to a file given an array of points
     public static void createPointsFile(String file, ArrayList<Point> arrData)

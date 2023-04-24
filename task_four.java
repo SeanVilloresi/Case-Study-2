@@ -28,7 +28,8 @@ public class task_four {
                 currentCenter = p;
             }
         }
-        System.out.println(minimumTotalDistance);
+        currentCenter.center_cost = minimumTotalDistance;
+        //System.out.println(minimumTotalDistance);
         return currentCenter;
     }
 
@@ -76,7 +77,7 @@ public class task_four {
         for (Trajectory p : set){
             minimumTotalDistance += task_three.dtw(ret, p).stat;
         }
-        System.out.println(minimumTotalDistance);
+        //System.out.println(minimumTotalDistance);
         return ret;
     }
 
@@ -142,7 +143,7 @@ public class task_four {
             minimumTotalDistance += task_three.dtw(ret, p).stat;
         }
         ret.center_cost = minimumTotalDistance;
-        System.out.println(minimumTotalDistance);
+        //System.out.println(minimumTotalDistance);
         return ret;
     }
 
