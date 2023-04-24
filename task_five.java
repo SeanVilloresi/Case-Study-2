@@ -143,7 +143,7 @@ public class task_five {
                         clusters[max_cost_dex].remove(randomInt);
                     }
                 }
-                centers.set(i, task_four.center3(clusters[i]));
+                centers.set(i, task_four.center2(clusters[i]));
                 //System.out.println(clusters[i].size());
             }
 

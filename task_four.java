@@ -34,54 +34,13 @@ public class task_four {
     }
 
     
+     
+                
+      
 
-
-
+    
 
     public static Trajectory center2(ArrayList<Trajectory> set){
-        // OK WHAT WE GON DO IS TREAT THE X COORDINATE LIKE A TIME AND TAKE THE AVERAGE OF ALL THE Y VALUES AT THAT POINT
-        // USE A THRESHOLD TO ACCOUNT FOR THE X COORDS NOT EXACTLY LINING UP (aka all x's 1-1.1 will be considered at "the same time")
-        
-        int max_traj_size = 0;
-
-        for(Trajectory t : set){
-            max_traj_size = Math.max(max_traj_size, t.points.size());   
-        }
-
-
-        double[] x_sum = new double[max_traj_size];
-        double[] y_sum = new double[max_traj_size];
-        int[] num_points = new int[max_traj_size];
-        Arrays.fill(x_sum, 0);
-        Arrays.fill(y_sum, 0);
-        Arrays.fill(num_points, 0);
-
-        for(int i = 0; i < max_traj_size; i++){
-            for(Trajectory t : set){
-                if(t.points.size() - i - 1 < 0) continue;
-                x_sum[i] = x_sum[i] + t.points.get(i).x;
-                y_sum[i] = y_sum[i] + t.points.get(i).y;
-                num_points[i] = num_points[i] + 1;
-            }
-                
-        }
-
-        Trajectory ret = new Trajectory("center");
-
-        for(int i = 0; i < max_traj_size; i++){
-            if(num_points[i] == 0) continue;
-            ret.points.add(new Point(x_sum[i] / num_points[i], y_sum[i] / num_points[i]));
-        }
-
-        double minimumTotalDistance = 0;
-        for (Trajectory p : set){
-            minimumTotalDistance += task_three.dtw(ret, p).stat;
-        }
-        //System.out.println(minimumTotalDistance);
-        return ret;
-    }
-
-    public static Trajectory center3(ArrayList<Trajectory> set){
         // OK WHAT WE GON DO IS TREAT THE X COORDINATE LIKE A TIME AND TAKE THE AVERAGE OF ALL THE Y VALUES AT THAT POINT
         // USE A THRESHOLD TO ACCOUNT FOR THE X COORDS NOT EXACTLY LINING UP (aka all x's 1-1.1 will be considered at "the same time")
         
@@ -167,7 +126,6 @@ public class task_four {
         //Not created yet lol
         Trajectory second_method =center2(set);
 
-        Trajectory third_method =center3(set);
 
         ArrayList<Trajectory> simplified_set=new ArrayList<>();
         //Simplify all Trajectories currently in our set
@@ -177,7 +135,6 @@ public class task_four {
 
         center1(simplified_set);
         center2(simplified_set);
-        center3(simplified_set);
         
         // for (int i=0; i<simplified_set.size(); i++){
         //         File_methods.createPointsFile("simplifiedtrajectory"+ i, simplified_set.get(i).points);
@@ -191,7 +148,7 @@ public class task_four {
         // }
 
         //File_methods.createPointsFile("center1", first_method.points);
-        //File_methods.createPointsFile("center2", third_method.points);
+        //File_methods.createPointsFile("center2", second_method.points);
         
         
 
