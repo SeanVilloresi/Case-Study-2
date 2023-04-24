@@ -128,7 +128,7 @@ public class task_five {
                         }
                         
                     }
-                    //essentially if no clusters meet our "ideal" criteria
+                    //essentially if no clusters meet our "ideal" criteria just take some from biggest cluster
                     if (max_cost_dex == -1){
                         int maxsize=0;
                         for (int j = 0; j < k; j++){
