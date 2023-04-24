@@ -17,7 +17,7 @@ def graph_Averages():
             if len(line)!=0:
                 values = line.strip().split('=')
                 
-                avg = values[2]
+                avg = float(values[2])
                 random_averages.append(avg)
     with open("ourseedAverages.txt", 'r') as my_file:
 
@@ -25,13 +25,11 @@ def graph_Averages():
             if len(line)!=0:
                 values = line.strip().split('=')
                 
-                avg = values[2]
+                avg = float(values[2])
                 ourSeed_averages.append(avg)
-
-
-
-
-
+    plt.plot(k_values, random_averages, '-o', label = "Random Averages")
+    plt.plot(k_values, ourSeed_averages, '-o', label = "Our Seeds Averages")
+    
 
 
 def graphk10Centers():
@@ -58,10 +56,6 @@ def graphk10Centers():
 
 
 
-
-
-
-
 ##Plots a scatterplot of all the points, just used as a check
 def graphAll():
     x_vals = []
@@ -77,4 +71,6 @@ def graphAll():
             y_vals.append(float(y))
     plt.scatter(x_vals, y_vals, alpha=.1)
 
+graph_Averages()
+plt.legend()
 plt.show()
