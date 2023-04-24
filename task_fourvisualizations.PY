@@ -50,12 +50,15 @@ for file in text_files:
     trajectories[traj_num] = {'x' : a, 'y' : b}
 
 #print(trajectories)
-plt.plot(x_coordscenter2, y_coordscenter2, '-o', zorder = 3, color = "red")
+plt.plot(x_coordscenter1, y_coordscenter1, '-o', zorder = 3, color = "blue", markersize = 2, alpha = 0.3)
+plt.plot(x_coordscenter2, y_coordscenter2, '-o', zorder = 3, color = "red", markersize = 2, alpha = 0.3)
+
 
 for i in range(10):
-    plt.plot(trajectories[i]['x'], trajectories[i]['y'], '-o', alpha = .5)
+    plt.plot(trajectories[i]['x'], trajectories[i]['y'], '-o', alpha = .3, color = "yellow", markersize = 10)
 
+plt.title('Comparing Approaches 1 and 2')
+plt.legend(['Approach 1 (Brute Force)', 'Approach 2', 'Original Trajectories'])
 plt.show()
 
 
-## Question is what is best way to store all the data for the other points

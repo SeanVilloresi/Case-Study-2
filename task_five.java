@@ -144,7 +144,11 @@ public class task_five {
                     }
                 }
                 centers.set(i, task_four.center2(clusters[i]));
-                //System.out.println(clusters[i].size());
+                double sum = 0;
+                for (Trajectory p : clusters[i]){
+                    sum += task_three.dtw(p, centers.get(i)).stat;
+                }
+                centers.get(i).center_cost = sum;
             }
 
             T_MAX--;
@@ -156,9 +160,7 @@ public class task_five {
                 currentBestC = new Clustering(centers,clusters);
                 currentBestC.cost=currentBest;
             }
-            //Debug statements
-            // System.out.println("Sum:" + temp);
-            // System.out.println("NEXT ITER");
+            
         }
 
         //Below we set up our final clustering and compare it to the "best" one through all our trials, and then determine which to use based on cost.
@@ -209,7 +211,7 @@ public class task_five {
         
         //File_methods.createClusterCenterFile("k10centers", k10);
         //for (int i=0; i<10;i++){
-            File_methods.computeAveragesFile("ourseedAverages", "OurSeed", set);
+        File_methods.computeAveragesFile("ourseedAverages", "OurSeed", set);
         //}
         
     }
