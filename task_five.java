@@ -150,8 +150,8 @@ public class task_five {
                 currentBestC.cost=currentBest;
             }
             //Debug statements
-            System.out.println("Sum:" + temp);
-            System.out.println("NEXT ITER");
+            // System.out.println("Sum:" + temp);
+            // System.out.println("NEXT ITER");
         }
 
         //Below we set up our final clustering and compare it to the "best" one through all our trials, and then determine which to use based on cost.
@@ -169,9 +169,10 @@ public class task_five {
 
 
     public static void main (String[] args) throws Exception{
+        
         ArrayList<Trajectory> set = File_methods.readTrajectoriesFromcsv("geolife-cars-upd8.csv");
         ArrayList<Point> points = File_methods.read_points_from_csv("geolife-cars-upd8.csv");
-        //System.out.println(set.get(3).id);
+        
         
         HashMap<String, ArrayList<Point>> everything = new HashMap<>();
 
@@ -197,9 +198,9 @@ public class task_five {
             
         //lloyds("Random", set, 10);
         System.out.print(set.size());
-        Clustering k10 = lloyds("OurSeed", set, 10);
+      // Clustering k10 = lloyds("OurSeed", set, 10);
         
-        File_methods.createClusterCenterFile("k10centers", k10);
-        
+        //File_methods.createClusterCenterFile("k10centers", k10);
+        File_methods.computeAveragesFile("ourseedAverages", "OurSeed", set);
     }
 }

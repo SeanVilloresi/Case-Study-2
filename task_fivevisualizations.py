@@ -4,6 +4,21 @@ import os
 import glob
 import csv
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 trajectories = {}
 with open("k10centers.txt", 'r') as my_file:
         #print(file)
@@ -20,6 +35,7 @@ with open("k10centers.txt", 'r') as my_file:
                 trajectories[id][0].append(x)
                 trajectories[id][1].append(y)
 
+##Plots center trajectories
 for i in range(10):
     plt.plot(trajectories[i][0], trajectories[i][1], '-o', alpha = .5)
 
@@ -29,6 +45,7 @@ for i in range(10):
 x_vals = []
 y_vals = []
 
+##Plots a scatterplot of all the points, just used as a check
 with open('geolife-cars-upd8.csv', newline='') as csvfile:
     reader = csv.reader(csvfile)
     next(reader)
