@@ -128,6 +128,13 @@ public class task_five {
                         }
                         
                     }
+                    //essentially if no clusters meet our "ideal" criteria
+                    if (max_cost_dex == -1){
+                        int maxsize=0;
+                        for (int j = 0; j < k; j++){
+                            if (clusters[j].size()>maxsize) {maxsize = clusters[j].size(); max_cost_dex = j;}
+                        }
+                    }
                     //Essentially takes 10 trajectories from our "worst" cluster cost wise at random to give to a cluster thats too small
                     Random random = new Random();
                     for(int j = 0; j < 10; j++){
@@ -191,16 +198,19 @@ public class task_five {
             for(Point p : entry.getValue()){
                 t.points.add(p);
             }
-            t = task_two.TS_greedy(t, 0.01);
+            t = task_two.TS_greedy(t, 0.05);
             set.add(t);
         }
 
             
         //lloyds("Random", set, 10);
-        System.out.print(set.size());
-      // Clustering k10 = lloyds("OurSeed", set, 10);
+        
+        //Clustering k10 = lloyds("OurSeed", set, 10);
         
         //File_methods.createClusterCenterFile("k10centers", k10);
-        File_methods.computeAveragesFile("ourseedAverages", "OurSeed", set);
+        //for (int i=0; i<10;i++){
+            File_methods.computeAveragesFile("ourseedAverages", "OurSeed", set);
+        //}
+        
     }
 }

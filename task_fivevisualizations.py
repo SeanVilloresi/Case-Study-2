@@ -71,6 +71,9 @@ def graphAll():
             y_vals.append(float(y))
     plt.scatter(x_vals, y_vals, alpha=.1)
 
-graph_Averages()
-plt.legend()
+#graph_Averages()
+#plt.legend()
+
+graphk10Centers()
+graphAll()
 plt.show()
