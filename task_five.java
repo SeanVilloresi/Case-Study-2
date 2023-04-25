@@ -114,20 +114,20 @@ public class task_five {
                 center_assignments.put(i, min_dex);
             }
             /////////////////////////////////////////////////////////////////////////////temp
-        for (int i=0;i<k;i++){
-            double sum = 0;
-                for (Trajectory p : clusters[i]){
-                    sum += task_three.dtw(p, centers.get(i)).stat;
-                }
-                centers.get(i).center_cost = sum;
-        }
-        int temp1=0;
-        for (Trajectory p : centers) temp1 += p.center_cost;
-        System.out.print(temp1 + "/, ");
+        // for (int i=0;i<k;i++){
+        //     double sum = 0;
+        //         for (Trajectory p : clusters[i]){
+        //             sum += task_three.dtw(p, centers.get(i)).stat;
+        //         }
+        //         centers.get(i).center_cost = sum;
+        // }
+        // int temp1=0;
+        // for (Trajectory p : centers) temp1 += p.center_cost;
+        // System.out.print(temp1 + "/, ");
         /////////////////////////////////////////////////////////////////////////////temp
             for(int i = 0; i < k; i++){
                 
-                if(clusters[i].size() <= 10){
+                if(clusters[i].size() <= 5){
 
                     double max_cost = 0;
                     int max_cost_dex = -1;
@@ -150,7 +150,7 @@ public class task_five {
                     }
                     //Essentially takes 10 trajectories from our "worst" cluster cost wise at random to give to a cluster thats too small
                     Random random = new Random();
-                    for(int j = 0; j < 10; j++){
+                    for(int j = 0; j < 5; j++){
                         int randomInt = random.nextInt(clusters[max_cost_dex].size());
                         clusters[i].add(clusters[max_cost_dex].get(randomInt));
                         clusters[max_cost_dex].remove(randomInt);
@@ -175,7 +175,7 @@ public class task_five {
                 currentBestC.cost=currentBest;
             }
             averageiterations +=temp;
-            System.out.print(temp + " ,");
+            System.out.print(temp + ", ");
             
         }
 
@@ -187,7 +187,7 @@ public class task_five {
 
         //System.out.println("Average: " + averageiterations/(15-T_MAX));
         
-        if (ret.cost>currentBestC.cost) return currentBestC;
+        // if (ret.cost>currentBestC.cost) return currentBestC;
 
         
         return ret;
@@ -229,7 +229,7 @@ public class task_five {
         
         File_methods.createClusterCenterFile("k10centers", k4);
         // for (int i=0; i<10;i++){
-        // File_methods.computeAveragesFile("ourseedAverages" + i, "OurSeed", set);
+         //File_methods.computeAveragesFile("ourseedAverages", "OurSeed", set);
         // }
         
     }
