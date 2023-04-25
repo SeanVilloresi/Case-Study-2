@@ -96,6 +96,7 @@ public class task_four {
         //add point to the return trajectory
         for(int i = 0; i < max_traj_size*2; i++){
             if(num_points[i] == 0) continue;
+            
             ret.points.add(new Point(x_sum[i] / num_points[i], y_sum[i] / num_points[i]));
         }
         
@@ -161,8 +162,8 @@ public class task_four {
         //     File_methods.createPointsFile("trajectory"+ i, set.get(i).points);
         // }
 
-        //File_methods.createPointsFile("center1", first_method.points);
-        //File_methods.createPointsFile("center2", second_method.points);
+        File_methods.createPointsFile("center1", first_method.points);
+        File_methods.createPointsFile("center2", second_method.points);
         
         
 

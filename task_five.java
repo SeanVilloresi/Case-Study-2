@@ -114,16 +114,16 @@ public class task_five {
                 center_assignments.put(i, min_dex);
             }
             /////////////////////////////////////////////////////////////////////////////temp
-        // for (int i=0;i<k;i++){
-        //     double sum = 0;
-        //         for (Trajectory p : clusters[i]){
-        //             sum += task_three.dtw(p, centers.get(i)).stat;
-        //         }
-        //         centers.get(i).center_cost = sum;
-        // }
-        // int temp1=0;
-        // for (Trajectory p : centers) temp1 += p.center_cost;
-        // System.out.print(temp1 + "/, ");
+        for (int i=0;i<k;i++){
+            double sum = 0;
+                for (Trajectory p : clusters[i]){
+                    sum += task_three.dtw(p, centers.get(i)).stat;
+                }
+                centers.get(i).center_cost = sum;
+        }
+        int temp1=0;
+        for (Trajectory p : centers) temp1 += p.center_cost;
+        System.out.print(temp1 + "/, ");
         /////////////////////////////////////////////////////////////////////////////temp
             for(int i = 0; i < k; i++){
                 
@@ -157,7 +157,7 @@ public class task_five {
                 //     }
                 // }
                 if (clusters[i].size()>0){
-                centers.set(i, task_four.center1(clusters[i]));
+                centers.set(i, task_four.center2(clusters[i]));
                 double sum = 0;
                 for (Trajectory p : clusters[i]){
                     sum += task_three.dtw(p, centers.get(i)).stat;
