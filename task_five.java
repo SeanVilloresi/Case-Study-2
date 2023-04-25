@@ -157,7 +157,7 @@ public class task_five {
                     }
                 }
                 if (clusters[i].size()>0){
-                centers.set(i, task_four.center3(clusters[i]));
+                centers.set(i, task_four.center4(clusters[i]));
                 double sum = 0;
                 for (Trajectory p : clusters[i]){
                     sum += task_three.dtw(p, centers.get(i)).stat;
@@ -225,7 +225,7 @@ public class task_five {
             
         //lloyds("Random", set, 10);
         
-        Clustering k4 = lloyds("OurSeed", set, 10);
+        Clustering k4 = lloyds("Random", set, 10);
         
         File_methods.createClusterCenterFile("k10centers", k4);
         // for (int i=0; i<10;i++){
