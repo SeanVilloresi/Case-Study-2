@@ -189,7 +189,7 @@ public class task_four {
                 min_error_index = i;
             }
         }
-
+        set.get(min_error_index).id="center";
         return set.get(min_error_index);
     }
 

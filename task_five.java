@@ -127,37 +127,37 @@ public class task_five {
         /////////////////////////////////////////////////////////////////////////////temp
             for(int i = 0; i < k; i++){
                 
-                // if(clusters[i].size() <= -1){
+                if(clusters[i].size() <= 10){
 
-                //     double max_cost = 0;
-                //     int max_cost_dex = -1;
+                    double max_cost = 0;
+                    int max_cost_dex = -1;
 
-                //     for(int j = 0; j < k; j++){
+                    for(int j = 0; j < k; j++){
                         
-                //         //checks to see if clusters meet our conditions to have trajectories yoinked
-                //         if(centers.get(j).center_cost >= max_cost && clusters[j].size() >= yoinkSize){
-                //             max_cost = centers.get(j).center_cost;
-                //             max_cost_dex = j;
-                //         }
+                        //checks to see if clusters meet our conditions to have trajectories yoinked
+                        if(centers.get(j).center_cost >= max_cost && clusters[j].size() >= yoinkSize){
+                            max_cost = centers.get(j).center_cost;
+                            max_cost_dex = j;
+                        }
                         
-                //     }
-                //     //essentially if no clusters meet our "ideal" criteria just take some from biggest cluster
-                //     if (max_cost_dex == -1){
-                //         int maxsize=0;
-                //         for (int j = 0; j < k; j++){
-                //             if (clusters[j].size()>maxsize) {maxsize = clusters[j].size(); max_cost_dex = j;}
-                //         }
-                //     }
-                //     //Essentially takes 10 trajectories from our "worst" cluster cost wise at random to give to a cluster thats too small
-                //     Random random = new Random();
-                //     for(int j = 0; j < 10; j++){
-                //         int randomInt = random.nextInt(clusters[max_cost_dex].size());
-                //         clusters[i].add(clusters[max_cost_dex].get(randomInt));
-                //         clusters[max_cost_dex].remove(randomInt);
-                //     }
-                // }
+                    }
+                    //essentially if no clusters meet our "ideal" criteria just take some from biggest cluster
+                    if (max_cost_dex == -1){
+                        int maxsize=0;
+                        for (int j = 0; j < k; j++){
+                            if (clusters[j].size()>maxsize) {maxsize = clusters[j].size(); max_cost_dex = j;}
+                        }
+                    }
+                    //Essentially takes 10 trajectories from our "worst" cluster cost wise at random to give to a cluster thats too small
+                    Random random = new Random();
+                    for(int j = 0; j < 10; j++){
+                        int randomInt = random.nextInt(clusters[max_cost_dex].size());
+                        clusters[i].add(clusters[max_cost_dex].get(randomInt));
+                        clusters[max_cost_dex].remove(randomInt);
+                    }
+                }
                 if (clusters[i].size()>0){
-                centers.set(i, task_four.center2(clusters[i]));
+                centers.set(i, task_four.center3(clusters[i]));
                 double sum = 0;
                 for (Trajectory p : clusters[i]){
                     sum += task_three.dtw(p, centers.get(i)).stat;

@@ -100,5 +100,5 @@ def graphAll():
 #plt.legend()
 
 graphk10Centers()
-#graphAll()
+graphAll()
 plt.show()
