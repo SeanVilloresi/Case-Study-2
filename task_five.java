@@ -127,7 +127,7 @@ public class task_five {
         /////////////////////////////////////////////////////////////////////////////temp
             for(int i = 0; i < k; i++){
                 
-                if(clusters[i].size() <= 5){
+                if(clusters[i].size() == 0){
 
                     double max_cost = 0;
                     int max_cost_dex = -1;
@@ -135,35 +135,27 @@ public class task_five {
                     for(int j = 0; j < k; j++){
                         
                         //checks to see if clusters meet our conditions to have trajectories yoinked
-                        if(centers.get(j).center_cost >= max_cost && clusters[j].size() >= yoinkSize){
+                        if(centers.get(j).center_cost >= max_cost && i != j){ 
                             max_cost = centers.get(j).center_cost;
                             max_cost_dex = j;
                         }
                         
                     }
-                    //essentially if no clusters meet our "ideal" criteria just take some from biggest cluster
-                    if (max_cost_dex == -1){
-                        int maxsize=0;
-                        for (int j = 0; j < k; j++){
-                            if (clusters[j].size()>maxsize) {maxsize = clusters[j].size(); max_cost_dex = j;}
-                        }
-                    }
+                    
                     //Essentially takes 10 trajectories from our "worst" cluster cost wise at random to give to a cluster thats too small
                     Random random = new Random();
-                    for(int j = 0; j < 5; j++){
-                        int randomInt = random.nextInt(clusters[max_cost_dex].size());
-                        clusters[i].add(clusters[max_cost_dex].get(randomInt));
-                        clusters[max_cost_dex].remove(randomInt);
-                    }
+                    int randomInt = random.nextInt(clusters[max_cost_dex].size());
+                    centers.set(i, clusters[max_cost_dex].get(randomInt));
+                
                 }
                 if (clusters[i].size()>0){
-                centers.set(i, task_four.center4(clusters[i]));
-                double sum = 0;
-                for (Trajectory p : clusters[i]){
-                    sum += task_three.dtw(p, centers.get(i)).stat;
-                }
+                    centers.set(i, task_four.center4(clusters[i]));
+                    double sum = 0;
+                    for (Trajectory p : clusters[i]){
+                        sum += task_three.dtw(p, centers.get(i)).stat;
+                    }
                 centers.get(i).center_cost = sum;
-            }
+                }
         }
             T_MAX--;
             //Checking to see if our current iteration is our new overall best iteration
@@ -185,9 +177,6 @@ public class task_five {
         for (Trajectory p : ret.centers) temp += p.center_cost;
         ret.cost=temp;
 
-        //System.out.println("Average: " + averageiterations/(15-T_MAX));
-        
-        // if (ret.cost>currentBestC.cost) return currentBestC;
 
         
         return ret;
@@ -225,7 +214,7 @@ public class task_five {
             
         //lloyds("Random", set, 10);
         
-        Clustering k4 = lloyds("Random", set, 10);
+        Clustering k4 = lloyds("OurSeed", set, 6);
         
         File_methods.createClusterCenterFile("k10centers", k4);
         // for (int i=0; i<10;i++){
