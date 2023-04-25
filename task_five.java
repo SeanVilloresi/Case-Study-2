@@ -74,7 +74,7 @@ public class task_five {
         int T_MAX = 15; 
         int averageiterations = 0;
         int yoinkSize = set.size() / (k*2);
-
+        
         HashMap<Integer, Integer> center_assignments = new HashMap<>();
         ArrayList<Trajectory>[] clusters = new ArrayList[k];
 
@@ -85,7 +85,7 @@ public class task_five {
         for(int i = 0; i < set.size(); i++){
             center_assignments.put(i, -1); 
         }
-            
+        
         boolean repeat = true;
         int currentBest = Integer.MAX_VALUE;
         Clustering currentBestC = null;
@@ -113,7 +113,18 @@ public class task_five {
                 clusters[min_dex].add(set.get(i));
                 center_assignments.put(i, min_dex);
             }
-            
+            /////////////////////////////////////////////////////////////////////////////temp
+        for (int i=0;i<k;i++){
+            double sum = 0;
+                for (Trajectory p : clusters[i]){
+                    sum += task_three.dtw(p, centers.get(i)).stat;
+                }
+                centers.get(i).center_cost = sum;
+        }
+        int temp1=0;
+        for (Trajectory p : centers) temp1 += p.center_cost;
+        System.out.print(temp1 + "/, ");
+        /////////////////////////////////////////////////////////////////////////////temp
             for(int i = 0; i < k; i++){
                 
                 if(clusters[i].size() <= 10){
