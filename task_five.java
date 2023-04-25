@@ -115,16 +115,16 @@ public class task_five {
                 center_assignments.put(i, min_dex);
             }
             /////////////////////////////////////////////////////////////////////////////temp
-        for (int i=0;i<k;i++){
-            double sum = 0;
-                for (Trajectory p : clusters[i]){
-                    sum += task_three.dtw(p, centers.get(i)).stat;
-                }
-                centers.get(i).center_cost = sum;
-        }
-        int temp1=0;
-        for (Trajectory p : centers) temp1 += p.center_cost;
-        System.out.print(temp1 + "/, ");
+        // for (int i=0;i<k;i++){
+        //     double sum = 0;
+        //         for (Trajectory p : clusters[i]){
+        //             sum += task_three.dtw(p, centers.get(i)).stat;
+        //         }
+        //         centers.get(i).center_cost = sum;
+        // }
+        // int temp1=0;
+        // for (Trajectory p : centers) temp1 += p.center_cost;
+        // System.out.print(temp1 + "/, ");
         /////////////////////////////////////////////////////////////////////////////temp
         
             for(int i = 0; i < k; i++){
@@ -219,17 +219,27 @@ public class task_five {
         }
 
             
-        //lloyds("Random", set, 10);
+        for (int i=0;i<5;i++){
+            System.out.print("ourseedrun" + i + " = [" );
+            lloyds("OurSeed", set, 10);
+            System.out.println("]");
+        }
+
+        for (int i=0;i<5;i++){
+            System.out.print("random" + i + " = [" );
+            lloyds("Random", set, 10);
+            System.out.println("]");
+        }
         
-        Clustering k4 = lloyds("OurSeed", set, 12);
+        //Clustering k12 = lloyds("OurSeed", set, 12);
         // for (ArrayList<Trajectory> x : k4.clusters){
         //     System.out.println(x.size());
         // }
         //System.out.print(set.size());
-        File_methods.createClusterCenterFile("k10centers", k4);
-         //for (int i=0; i<10;i++){
-         //File_methods.computeAveragesFile("ourseedAverages", "OurSeed", set);
-        // }
+        //File_methods.createClusterCenterFile("k10centers", k12);
+        
+        //File_methods.computeAveragesFile("randomAverages", "Random", set);
+    
         
     }
 }

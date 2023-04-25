@@ -14,16 +14,16 @@ def clusterroundAverages(method):
     #acquired just by running code
      
 
-    random1= [8561, 7190, 7781, 7151, 8053, 5144, 1850, 1771, 1765, 1766]
-    random2 = [8599, 8348, 7587, 7252, 8436, 8270, 8121, 8291, 8094, 8206]
-    random3 = [19741, 12493, 12360, 8161, 7893, 7470, 3880, 2987, 1747, 1646]
-    random4 = [8203, 4367, 2989, 4432, 2989, 3906, 1799, 1662, 1661, 1660]
-    random5 = [7854, 7049, 6746, 5730, 5553, 4849, 3200, 4044, 3012, 3854]
-    ourseedrun1 = [103, 103, 103, 102,102,102,102,102,102,102]
-    ourseedrun2 = [246, 162, 151, 134, 134, 132, 133,133,133,133]
-    ourseedrun3 = [266, 697, 97, 94, 94,94,94,94,94,94]
-    ourseedrun4 =[415, 105, 104, 103,103,103,103,103,103,103]
-    ourseedrun5 = [401, 146, 109, 114, 115, 113,113,113,113,113]
+    random0 = [8982, 6959, 5703, 5703, 5704, 5703, 5702, 5704, 5703, 5702]
+    random1 = [17302, 12593, 5706, 5706, 5708, 5705, 5707, 5705, 5707, 5705]
+    random2 = [3894, 3779, 3683, 3697, 3649, 3686, 3660, 3686, 3456, 3416]
+    random3 = [15360, 14826, 8018, 5709, 5706, 5705, 5727, 5704, 5706, 5706]
+    random4 = [12251, 5975, 5976, 5980, 5976, 6034, 5705, 5703, 5705, 5703 ]
+    ourseedrun0 = [90, 46, 51, 46, 45, 45, 43, 49, 48, 47]
+    ourseedrun1 = [55, 57, 53, 51, 50, 49, 51, 50, 51, 50]
+    ourseedrun2 = [82, 57, 57, 54, 53, 50, 48, 51, 50, 51]
+    ourseedrun3 = [78, 71, 61, 61, 59, 67, 63, 63, 61, 58]
+    ourseedrun4 = [50, 54, 47, 44, 47, 47, 44, 51, 47, 47]
  
  
  
@@ -31,8 +31,8 @@ def clusterroundAverages(method):
     randomavg =[]
     xes = [1,2,3,4,5,6,7,8,9,10]
     for i in range(10):
-        temp1 = (ourseedrun1[i]+ourseedrun2[i]+ourseedrun3[i]+ourseedrun4[i]+ourseedrun5[i])/5
-        temp2 = (random1[i]+random2[i]+random3[i]+random4[i]+random5[i])/5
+        temp1 = (ourseedrun0[i]+ourseedrun1[i]+ourseedrun2[i]+ourseedrun3[i]+ourseedrun4[i])/5
+        temp2 = (random0[i]+random1[i]+random2[i]+random3[i]+random4[i])/5
         ouravg.append(temp1)
         randomavg.append(temp2)
     if method == "Random":
@@ -60,6 +60,8 @@ def graph_Averages():
                 ourSeed_averages.append(avg)
     plt.plot(k_values, random_averages, '-o', label = "Random Averages")
     plt.plot(k_values, ourSeed_averages, '-o', label = "Our Seeds Averages")
+    plt.xlabel("k (Number of clusters)")
+    plt.ylabel("Average Cost over 3 runs")
     
 
 
@@ -81,8 +83,8 @@ def graphk10Centers():
                     trajectories[id][1].append(y)
 
     ##Plots center trajectories
-    for i in range(10):
-        plt.plot(trajectories[i][0], trajectories[i][1], '-o', alpha = .5)
+    for i in range(12):
+        plt.plot(trajectories[i][0], trajectories[i][1], alpha = .5)
 
 
 
@@ -103,9 +105,9 @@ def graphAll():
     plt.scatter(x_vals, y_vals, alpha=.1)
 
 #graph_Averages()
-#clusterroundAverages("test")
-#plt.legend()
+clusterroundAverages("Random")
+plt.legend()
 
-graphk10Centers()
-graphAll()
+#graphk10Centers()
+#graphAll()
 plt.show()
