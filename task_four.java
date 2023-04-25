@@ -30,6 +30,7 @@ public class task_four {
         }
         //set center cost value of the Trajectory object
         currentCenter.center_cost = minimumTotalDistance;
+        currentCenter.id="center";
         return currentCenter;
     }
 
