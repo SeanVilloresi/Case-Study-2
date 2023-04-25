@@ -71,7 +71,8 @@ public class task_five {
         else if (method.equals("OurSeed")) centers = ourSeed(set, k);
         else throw new IllegalArgumentException("Invalid String Passed");
 
-        int T_MAX = 30; 
+        int T_MAX = 15; 
+        int averageiterations = 0;
         int yoinkSize = set.size() / (k*2);
 
         HashMap<Integer, Integer> center_assignments = new HashMap<>();
@@ -151,7 +152,7 @@ public class task_five {
                 }
                 centers.get(i).center_cost = sum;
             }
-
+            
             T_MAX--;
             //Checking to see if our current iteration is our new overall best iteration
             int temp=0;
@@ -161,6 +162,8 @@ public class task_five {
                 currentBestC = new Clustering(centers,clusters);
                 currentBestC.cost=currentBest;
             }
+            averageiterations +=temp;
+            System.out.print(temp + " ,");
             
         }
 
@@ -170,11 +173,13 @@ public class task_five {
         for (Trajectory p : ret.centers) temp += p.center_cost;
         ret.cost=temp;
 
-
+        //System.out.println("Average: " + averageiterations/(15-T_MAX));
+        
         if (ret.cost>currentBestC.cost) return currentBestC;
 
-
+        
         return ret;
+        
     }
 
 
@@ -201,19 +206,19 @@ public class task_five {
             for(Point p : entry.getValue()){
                 t.points.add(p);
             }
-            t = task_two.TS_greedy(t, 0.05);
+            t = task_two.TS_greedy(t, 0.03);
             set.add(t);
         }
 
             
         //lloyds("Random", set, 10);
         
-        //Clustering k10 = lloyds("OurSeed", set, 10);
+        Clustering k10 = lloyds("OurSeed", set, 10);
         
         //File_methods.createClusterCenterFile("k10centers", k10);
-        for (int i=0; i<10;i++){
-        File_methods.computeAveragesFile("ourseedAverages" + i, "OurSeed", set);
-        }
+        // for (int i=0; i<10;i++){
+        // File_methods.computeAveragesFile("ourseedAverages" + i, "OurSeed", set);
+        // }
         
     }
 }
