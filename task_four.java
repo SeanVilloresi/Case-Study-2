@@ -34,13 +34,9 @@ public class task_four {
         return currentCenter;
     }
 
-    
-     
-    
-
     public static Trajectory center2(ArrayList<Trajectory> set){
         
-        //find the maximum length trajecotry and get its mid-point
+        //Find the maximum length trajecotry and get its mid-point
         int max_traj_size = 0;
         int max_traj_dex = 0;
         for(int i = 0; i < set.size(); i++){
@@ -49,10 +45,12 @@ public class task_four {
         }
         int mid_dex = set.get(max_traj_dex).points.size() / 2;
 
-        //this array will store the point in each trajectory that we are pairing together
+        //This array will store the point in each trajectory that 
+        //we are pairing with the long trajectory's midpoint
         int[] paired_point_dexes = new int[set.size()];
 
-        //iterate over all trajectories and get the closest point to the mid-point of the longest trajectory
+        //iterate over all trajectories and get the closest point to the 
+        //mid-point of the long trajectory
         for(int i = 0; i < set.size(); i++){
             ArrayList<Point> p = set.get(i).points;
             double min_dist = Double.MAX_VALUE;
@@ -68,86 +66,23 @@ public class task_four {
             paired_point_dexes[i] = dex;
         }
 
-        //arrays we will need for storing data for each bin
-        double[] x_sum = new double[max_traj_size*2];
-        double[] y_sum = new double[max_traj_size*2];
-        int[] num_points = new int[max_traj_size*2];
-        Arrays.fill(x_sum, 0);
-        Arrays.fill(y_sum, 0);
-        Arrays.fill(num_points, 0);
-
-        //iterate over each trajectory and add its points sequentially to the proper bucket
-        for(int i = 0; i < set.size(); i++){
-            ArrayList<Point> p = set.get(i).points;
-            //compute what bin we need to start adding the points from this trajectory
-            //make sure the point in "paired_point_dexes" ends up in the right buckets
-            int start_bin = max_traj_size - paired_point_dexes[i];
-            for(int j = 0; j < p.size(); j++){
-                int bin = start_bin + j;
-                x_sum[bin] = x_sum[bin] + p.get(j).x;
-                y_sum[bin] = y_sum[bin] + p.get(j).y;
-                num_points[bin] = num_points[bin] + 1;
-            }     
-        }
-        //create the center trajectory we will return
-        Trajectory ret = new Trajectory("center");
-
-        //iterate over all the bins... if there are points in the bin, compute their mean x and y
-        //add point to the return trajectory
-        for(int i = 0; i < max_traj_size*2; i++){
-            if(num_points[i] == 0) continue;
-            
-            ret.points.add(new Point(x_sum[i] / num_points[i], y_sum[i] / num_points[i]));
-        }
-        
-        return ret;
-    }
-
-    public static Trajectory center3(ArrayList<Trajectory> set){
-        
-        //find the maximum length trajecotry and get its mid-point
-        int max_traj_size = 0;
-        int max_traj_dex = 0;
-        for(int i = 0; i < set.size(); i++){
-            max_traj_size = Math.max(max_traj_size, set.get(i).points.size());
-            if(set.get(i).points.size() == max_traj_size) max_traj_dex = i; 
-        }
-        int mid_dex = set.get(max_traj_dex).points.size() / 2;
-
-        //this array will store the point in each trajectory that we are pairing together
-        int[] paired_point_dexes = new int[set.size()];
-
-        //iterate over all trajectories and get the closest point to the mid-point of the longest trajectory
-        for(int i = 0; i < set.size(); i++){
-            ArrayList<Point> p = set.get(i).points;
-            double min_dist = Double.MAX_VALUE;
-            int dex = 0;
-            for(int j = 0; j < p.size(); j++){
-                double dist = set.get(max_traj_dex).points.get(mid_dex).dist(p.get(j));
-                if(dist < min_dist){
-                    min_dist = dist;
-                    dex = j;
-                }
-            }
-            //assign this point of minimum distance to the list of paired points
-            paired_point_dexes[i] = dex;
-        }
-
-        //arrays we will need for storing data for each bin
+        //paired points occuring at the same "time" will be placed in the same bin
+        //the point will be paired sequentially based on the matches mad above
+        //Arrays we will need for storing data for each bin:
         double[] x_sum = new double[max_traj_size*2];
         double[] y_sum = new double[max_traj_size*2];
         int[] num_points = new int[max_traj_size*2];
         double[] x_avgs = new double[max_traj_size*2];
         double[] y_avgs = new double[max_traj_size*2];
-        double[] squared_error_sums = new double[set.size()];
+        double[] error_sums = new double[set.size()];
         Arrays.fill(x_sum, 0);
         Arrays.fill(y_sum, 0);
         Arrays.fill(num_points, 0);
         Arrays.fill(x_avgs, 0);
         Arrays.fill(y_avgs, 0);
-        Arrays.fill(squared_error_sums, 0);
+        Arrays.fill(error_sums, 0);
 
-        //iterate over each trajectory and add its points sequentially to the proper bucket
+        //Iterate over each trajectory and add its points sequentially to the proper bucket
         for(int i = 0; i < set.size(); i++){
             ArrayList<Point> p = set.get(i).points;
             //compute what bin we need to start adding the points from this trajectory
@@ -160,102 +95,8 @@ public class task_four {
                 num_points[bin] = num_points[bin] + 1;
             }     
         }
-        //create the center trajectory we will return
-        Trajectory ret = new Trajectory("center");
 
         //iterate over all the bins... if there are points in the bin, compute their mean x and y
-        //add point to the return trajectory
-        for(int i = 0; i < max_traj_size*2; i++){
-            if(num_points[i] == 0) continue;
-            
-            ret.points.add(new Point(x_sum[i] / num_points[i], y_sum[i] / num_points[i]));
-        }
-
-        for(int i = 0; i < set.size(); i++){
-            int j = 0;
-            while(j < set.get(i).points.size() && j < ret.points.size()){
-                squared_error_sums[i] += set.get(i).points.get(j).dist(ret.points.get(j));
-                squared_error_sums[i] += set.get(i).points.get(set.get(i).points.size() - 1 - j).dist(ret.points.get(ret.points.size() - 1 - j));
-                j++;
-            }
-        }
-
-        double min_avg_error = Double.MAX_VALUE;
-        int min_error_index = 0;
-
-        for(int i = 0; i < squared_error_sums.length; i++){
-            double error = squared_error_sums[i] / set.get(i).points.size();
-            if(error < min_avg_error){
-                min_avg_error = error;
-                min_error_index = i;
-            }
-        }
-        set.get(min_error_index).id="center";
-        return set.get(min_error_index);
-    }
-
-    public static Trajectory center4(ArrayList<Trajectory> set){
-        
-        //find the maximum length trajecotry and get its mid-point
-        int max_traj_size = 0;
-        int max_traj_dex = 0;
-        for(int i = 0; i < set.size(); i++){
-            max_traj_size = Math.max(max_traj_size, set.get(i).points.size());
-            if(set.get(i).points.size() == max_traj_size) max_traj_dex = i; 
-        }
-        int mid_dex = set.get(max_traj_dex).points.size() / 2;
-
-        //this array will store the point in each trajectory that we are pairing together
-        int[] paired_point_dexes = new int[set.size()];
-
-        //iterate over all trajectories and get the closest point to the mid-point of the longest trajectory
-        for(int i = 0; i < set.size(); i++){
-            ArrayList<Point> p = set.get(i).points;
-            double min_dist = Double.MAX_VALUE;
-            int dex = 0;
-            for(int j = 0; j < p.size(); j++){
-                double dist = set.get(max_traj_dex).points.get(mid_dex).dist(p.get(j));
-                if(dist < min_dist){
-                    min_dist = dist;
-                    dex = j;
-                }
-            }
-            //assign this point of minimum distance to the list of paired points
-            paired_point_dexes[i] = dex;
-        }
-
-        //arrays we will need for storing data for each bin
-        double[] x_sum = new double[max_traj_size*2];
-        double[] y_sum = new double[max_traj_size*2];
-        int[] num_points = new int[max_traj_size*2];
-        double[] x_avgs = new double[max_traj_size*2];
-        double[] y_avgs = new double[max_traj_size*2];
-        double[] squared_error_sums = new double[set.size()];
-        Arrays.fill(x_sum, 0);
-        Arrays.fill(y_sum, 0);
-        Arrays.fill(num_points, 0);
-        Arrays.fill(x_avgs, 0);
-        Arrays.fill(y_avgs, 0);
-        Arrays.fill(squared_error_sums, 0);
-
-        //iterate over each trajectory and add its points sequentially to the proper bucket
-        for(int i = 0; i < set.size(); i++){
-            ArrayList<Point> p = set.get(i).points;
-            //compute what bin we need to start adding the points from this trajectory
-            //make sure the point in "paired_point_dexes" ends up in the right buckets
-            int start_bin = max_traj_size - paired_point_dexes[i];
-            for(int j = 0; j < p.size(); j++){
-                int bin = start_bin + j;
-                x_sum[bin] = x_sum[bin] + p.get(j).x;
-                y_sum[bin] = y_sum[bin] + p.get(j).y;
-                num_points[bin] = num_points[bin] + 1;
-            }     
-        }
-        //create the center trajectory we will return
-        //Trajectory ret = new Trajectory("center");
-
-        //iterate over all the bins... if there are points in the bin, compute their mean x and y
-        //add point to the return trajectory
         for(int i = 0; i < max_traj_size*2; i++){
             if(num_points[i] == 0) continue;
             
@@ -263,25 +104,33 @@ public class task_four {
             y_sum[i] = y_sum[i] / num_points[i];
         }
 
+        //Now we want to select our return trajectory with the minimum squared error
         for(int i = 0; i < set.size(); i++){
+            //compute what bin that trajectory started in (same as above)
             int start_bin = max_traj_size - paired_point_dexes[i];
+            //iterate over all bins in which that trajectory has points
+            //compute the distance between the point in the bin and the average coordinates for that bin
+            //add that distance to the error sum for that trajectory
             for(int j = 0; j < set.get(i).points.size(); j++){
                 int bin = start_bin + j;
-                squared_error_sums[i] += set.get(i).points.get(j).dist(new Point(x_sum[bin], y_sum[bin]));
+                error_sums[i] += set.get(i).points.get(j).dist(new Point(x_sum[bin], y_sum[bin]));
             }
         }
 
         double min_avg_error = Double.MAX_VALUE;
         int min_error_index = 0;
 
-        for(int i = 0; i < squared_error_sums.length; i++){
-            double error = squared_error_sums[i] / set.get(i).points.size();
+
+        //iterate over all the trajectories, find the trajectory with the minimum error sum
+        for(int i = 0; i < error_sums.length; i++){
+            double error = error_sums[i] / set.get(i).points.size();
             if(error < min_avg_error){
                 min_avg_error = error;
                 min_error_index = i;
             }
         }
         set.get(min_error_index).id="center";
+        //return trajectory with minimum error sum
         return set.get(min_error_index);
     }
 
@@ -299,6 +148,7 @@ public class task_four {
         }
 
         //Simplify all Trajectories currently in our set with specified epsilon
+        //To run without simplification, use epsilon = 0 
         double epsilon = 0.3;
         ArrayList<Trajectory> simplified_set=new ArrayList<>();
         for (Trajectory p : set){
@@ -306,47 +156,31 @@ public class task_four {
         }
 
        //Test Cases
-        Trajectory first_method = center1(set);
-        Trajectory second_method =center3(set);
-        Trajectory third = center4(set);
-        Trajectory first_method_simp = center1(simplified_set);
-        Trajectory second_method_simp =center3(simplified_set);
-        Trajectory third_simp = center4(simplified_set);
-
+        Trajectory first_method = center1(simplified_set);
+        Trajectory second_method =center2(simplified_set);
+        
 
         //compute cost for second approach since it is not automatically given to us
         double sum = 0;
-        double sum_simp = 0;
-        double three_sum = 0;
-        for (Trajectory p : set){
+        for (Trajectory p : simplified_set){
             sum += task_three.dtw(p, second_method).stat;
         }
         second_method.center_cost = sum;
-        for (Trajectory p : set){
-            three_sum += task_three.dtw(p, third).stat;
-        }
-        third.center_cost = three_sum;
-        for (Trajectory p : simplified_set){
-            sum_simp += task_three.dtw(p, second_method_simp).stat;
-        }
-        second_method_simp.center_cost = sum_simp;
 
-        System.out.println("Approach I Center Cost: " + first_method.center_cost);
-        System.out.println("Approach II Center Cost: " + second_method.center_cost);
-        System.out.println("Approach I Center Cost(Epsilon = " + epsilon + "): " + first_method_simp.center_cost);
-        System.out.println("Approach II Center Cost(Epsilon = " + epsilon + "): " + second_method_simp.center_cost);
-        System.out.println("Approach III Center Cost: " + third.center_cost);
-
+        System.out.println("Approach I Center Cost(Epsilon = " + epsilon + "): " + first_method.center_cost);
+        System.out.println("Approach II Center Cost(Epsilon = " + epsilon + "): " + second_method.center_cost);
         
-        // for (int i=0; i<simplified_set.size(); i++){
-        //         File_methods.createPointsFile("simplifiedtrajectory"+ i, simplified_set.get(i).points);
-        // }
+        
+        
 
        
 
         //Just used to create point files for all trajectories in trajectory-ids
         // for (int i=0; i<set.size(); i++){
         //     File_methods.createPointsFile("trajectory"+ i, set.get(i).points);
+        // }
+        // for (int i=0; i<simplified_set.size(); i++){
+        //         File_methods.createPointsFile("simplifiedtrajectory"+ i, simplified_set.get(i).points);
         // }
 
         File_methods.createPointsFile("center1", first_method.points);
