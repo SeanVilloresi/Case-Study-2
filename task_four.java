@@ -175,6 +175,7 @@ public class task_four {
             int j = 0;
             while(j < set.get(i).points.size() && j < ret.points.size()){
                 squared_error_sums[i] += set.get(i).points.get(j).dist(ret.points.get(j));
+                squared_error_sums[i] += set.get(i).points.get(set.get(i).points.size() - 1 - j).dist(ret.points.get(ret.points.size() - 1 - j));
                 j++;
             }
         }
