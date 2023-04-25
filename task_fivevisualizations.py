@@ -10,29 +10,36 @@ k_values = [4,6,8,10,12]
 random_averages = []
 ourSeed_averages = []
 
-def clusterroundAverages():
+def clusterroundAverages(method):
     #acquired just by running code
-    random1= [18485 ,12293 ,2122 ,1827 ,1265 ,978 ,996 ,1032 ,975 ,998 ,973 ,984 ,986 ,1011 ,1009]
-    random2 = [11242 ,6481 ,975 ,946 ,958 ,960 ,989 ,1010 ,1010 ,1010 ,1036 ,1008 ,954 ,983 ,972]
-    random3 = [18513 ,7079 ,2667 ,2676 ,2692 ,2684 ,2687 ,2712 ,2675 ,2680 ,2687 ,2675 ,2701 ,2690 ,2695]
-    random4 = [17179 ,6225 ,1867 ,1195 ,1169 ,1131 ,1174 ,1180 ,1143 ,1175 ,1145 ,1105 ,1134 ,1175 ,1124]
-    random5 = [17113 ,4218 ,1812 ,1147 ,1188 ,1158 ,1179 ,1167 ,1195 ,1180 ,1128 ,1164 ,1140 ,1138 ,1178]
-    ourseedrun1 = [218 ,202 ,255 ,247 ,190 ,188 ,224 ,222 ,173 ,217 ,224 ,261 ,249 ,214 ,228]
-    ourseedrun2 = [276 ,309 ,321 ,293 ,314 ,292 ,291 ,288 ,282 ,291 ,319 ,332 ,323 ,278 ,289]
-    ourseedrun3 = [241 ,237 ,219 ,249 ,211 ,254 ,249 ,205 ,249 ,248 ,219 ,231 ,246 ,245 ,257]
-    ourseedrun4 =[188 ,201 ,199 ,218 ,221 ,221 ,234 ,228 ,249 ,252 ,249 ,229 ,234 ,243 ,211]
-    ourseedrun5 = [218 ,212 ,223 ,191 ,251 ,249 ,246 ,250 ,251 ,249 ,258 ,250 ,248 ,246 ,260]
+     
 
+    random1= [8561, 7190, 7781, 7151, 8053, 5144, 1850, 1771, 1765, 1766]
+    random2 = [8599, 8348, 7587, 7252, 8436, 8270, 8121, 8291, 8094, 8206]
+    random3 = [19741, 12493, 12360, 8161, 7893, 7470, 3880, 2987, 1747, 1646]
+    random4 = [8203, 4367, 2989, 4432, 2989, 3906, 1799, 1662, 1661, 1660]
+    random5 = [7854, 7049, 6746, 5730, 5553, 4849, 3200, 4044, 3012, 3854]
+    ourseedrun1 = [103, 103, 103, 102,102,102,102,102,102,102]
+    ourseedrun2 = [246, 162, 151, 134, 134, 132, 133,133,133,133]
+    ourseedrun3 = [266, 697, 97, 94, 94,94,94,94,94,94]
+    ourseedrun4 =[415, 105, 104, 103,103,103,103,103,103,103]
+    ourseedrun5 = [401, 146, 109, 114, 115, 113,113,113,113,113]
+ 
+ 
+ 
     ouravg = []
     randomavg =[]
-    xes = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
-    for i in range(15):
+    xes = [1,2,3,4,5,6,7,8,9,10]
+    for i in range(10):
         temp1 = (ourseedrun1[i]+ourseedrun2[i]+ourseedrun3[i]+ourseedrun4[i]+ourseedrun5[i])/5
         temp2 = (random1[i]+random2[i]+random3[i]+random4[i]+random5[i])/5
         ouravg.append(temp1)
         randomavg.append(temp2)
-    plt.plot(xes, randomavg, '-o', label = "Random Averages")
-    plt.plot(xes, ouravg, '-o', label = "Our Seeds Averages")
+    if method == "Random":
+        plt.plot(xes, randomavg, '-o', label = "Random Averages")
+    else: plt.plot(xes, ouravg, '-o', label = "Our Seeds Averages")
+    plt.xlabel("Iterations")
+    plt.ylabel("Average Cost over 5 Runs")
 
 def graph_Averages():
     with open("randomAverages.txt", 'r') as my_file:
@@ -96,9 +103,9 @@ def graphAll():
     plt.scatter(x_vals, y_vals, alpha=.1)
 
 #graph_Averages()
-#clusterroundAverages()
-#plt.legend()
+clusterroundAverages("test")
+plt.legend()
 
-graphk10Centers()
-graphAll()
+#graphk10Centers()
+#graphAll()
 plt.show()
