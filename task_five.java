@@ -7,11 +7,13 @@ import java.util.HashMap;
 
 public class task_five {
 
+    //method for getting random seed
     public static ArrayList<Trajectory> randomSeed(ArrayList<Trajectory> set, int k){
         
         HashSet<Integer> seeds = new HashSet<>();
         Random random = new Random();
         
+        //select random numbers in range of possible trajectories until we have k of them
         while(k > 0){
             int randomInt = random.nextInt(set.size());
             if(!seeds.contains(randomInt)){
@@ -21,7 +23,7 @@ public class task_five {
         }
 
         ArrayList<Trajectory> ret = new ArrayList<>();
-
+        //add trajectories to return arrayList
         for(int dex : seeds){
             set.get(dex).center_cost = 0;
             ret.add(set.get(dex));
@@ -66,17 +68,18 @@ public class task_five {
     public static Clustering lloyds(String method, ArrayList<Trajectory> set, int k) throws IOException{
         
         ArrayList<Trajectory> centers;
-
+        //select seeds based on string paramter
         if (method.equals("Random")) centers = randomSeed(set, k);
         else if (method.equals("OurSeed")) centers = ourSeed(set, k);
         else throw new IllegalArgumentException("Invalid String Passed");
 
+        //set number of iterations
         int T_MAX = 10; 
-        int averageiterations = 0;
-        double yoinkSize = 1;
         
-        
+        //hash-map stores what center each traj is assigned to... 
+        //tells us if we need to repeat Lloyds of if we have converged
         HashMap<Integer, Integer> center_assignments = new HashMap<>();
+        //list of trajectories assigned to each cluster
         ArrayList<Trajectory>[] clusters = new ArrayList[k];
 
         for(int i = 0; i < k; i++){
@@ -86,17 +89,19 @@ public class task_five {
         for(int i = 0; i < set.size(); i++){
             center_assignments.put(i, -1); 
         }
-        
+        //this boolean tells us if we need to repeat iterations or if we have converged
         boolean repeat = true;
-        int currentBest = Integer.MAX_VALUE;
-        Clustering currentBestC = null;
+
+        //iterate until TMAX or we converge
         while(repeat && T_MAX > 0){
 
             repeat = false;
+            //clear previous clusters
             for(ArrayList<Trajectory> cluster : clusters){
                 cluster.clear();
             }
 
+            //add each trajectory to the cluster with the nearest center
             for(int i = 0; i < set.size(); i++){
                 double min_score = Double.MAX_VALUE;
                 int min_dex = -1;
@@ -107,85 +112,66 @@ public class task_five {
                         min_dex = j;
                     }
                 }
+                //if a trajectory changes assignment, make sure we will iterate again
                 if(center_assignments.get(i) != min_dex){
                     repeat = true;
                 }
 
+                //add trajectory to appropriate cluster
                 clusters[min_dex].add(set.get(i));
                 center_assignments.put(i, min_dex);
             }
-            /////////////////////////////////////////////////////////////////////////////temp
-        // for (int i=0;i<k;i++){
-        //     double sum = 0;
-        //         for (Trajectory p : clusters[i]){
-        //             sum += task_three.dtw(p, centers.get(i)).stat;
-        //         }
-        //         centers.get(i).center_cost = sum;
-        // }
-        // int temp1=0;
-        // for (Trajectory p : centers) temp1 += p.center_cost;
-        // System.out.print(temp1 + "/, ");
-        /////////////////////////////////////////////////////////////////////////////temp
-        
+            
+            //make sure no clusters are empty, if so, we will find a new center for it
             for(int i = 0; i < k; i++){
                 
-                if(clusters[i].size() < yoinkSize){
-                     double localmax = 0;
+                if(clusters[i].size() < 1){
                     
+                    //find trajectory with the worst distance to its center
+                    double localmax = 0;
                     Trajectory newcenter = new Trajectory("center");
-                    //calculating which trajectory currently is the "worst"
                     for (int j=0;j<k;j++){
                         for (Trajectory p:clusters[j]){
                             double temp3 = task_three.dtw(centers.get(j), p).stat;
-                    //     //System.out.println(temp3);
-                        if (temp3> localmax){
-                            
-                             localmax = temp3;
-                            newcenter = p;
-                         }
+                            if (temp3> localmax){    
+                                localmax = temp3;
+                                newcenter = p;
+                            }
                         }
                     }
                     
-                    //Assign our new center to be from the "worst trajectory"
+                    //Assign the empty center to the trajectory determined above
                     centers.set(i, newcenter);
                     centers.get(i).id="center";
-                    //System.out.println("Yoinked!");
                  
                 }
-                //if our center wasnt already set by yoink
-                if (clusters[i].size()>yoinkSize){
+                //get new centers for all clusters that were not reassigned through the process above (for being empty)
+                if (clusters[i].size()>0){
+                    //get new center
                     centers.set(i, task_four.center2(clusters[i]));
-                    
+                    //calculate cost of clustering
                     double sum = 0;
                     for (Trajectory p : clusters[i]){
                         sum += task_three.dtw(p, centers.get(i)).stat;
                     }
-                centers.get(i).center_cost = sum;
-
+                    centers.get(i).center_cost = sum;
                 }
         }
             T_MAX--;
-            //Checking to see if our current iteration is our new overall best iteration
-            int temp=0;
-            for (Trajectory p : centers) temp += p.center_cost;
-            if (temp<currentBest){
-                currentBest = temp;
-                currentBestC = new Clustering(centers,clusters);
-                currentBestC.cost=currentBest;
-            }
-            averageiterations +=temp;
-            System.out.print(temp + ", ");
+            //USE THIS FOR CHECKING COST OVER EACH ITERATION
+            // int temp=0;
+            // for (Trajectory p : centers) temp += p.center_cost;
+            // System.out.println(temp);
+           
             
         }
 
-        //Below we set up our final clustering and compare it to the "best" one through all our trials, and then determine which to use based on cost.
+       //create return Clustering and calculate its cost
         int temp = 0;
         Clustering ret = new Clustering(centers, clusters);
         for (Trajectory p : ret.centers) temp += p.center_cost;
         ret.cost=temp;
 
-
-        
         return ret;
         
     }
@@ -193,6 +179,7 @@ public class task_five {
 
     public static void main (String[] args) throws Exception{
         
+        //process for creating arrayList of trajectories
         ArrayList<Trajectory> set = File_methods.readTrajectoriesFromcsv("geolife-cars-upd8.csv");
         ArrayList<Point> points = File_methods.read_points_from_csv("geolife-cars-upd8.csv");
         
@@ -214,11 +201,13 @@ public class task_five {
             for(Point p : entry.getValue()){
                 t.points.add(p);
             }
+            //change epsilon here if you wish to change epsilon for simplification
             t = task_two.TS_greedy(t, 0.01);
             set.add(t);
         }
 
-            
+        //Code for getting arrays to put in python visualization 
+        //for average iterations over multiple runs  
         // for (int i=0;i<5;i++){
         //     System.out.print("ourseedrun" + i + " = [" );
         //     lloyds("OurSeed", set, 10);
@@ -231,12 +220,13 @@ public class task_five {
         //     System.out.println("]");
         // }
         
-        Clustering k12 = lloyds("OurSeed", set, 12);
-        // for (ArrayList<Trajectory> x : k4.clusters){
-        //     System.out.println(x.size());
-        // }
-        //System.out.print(set.size());
-        File_methods.createClusterCenterFile("k10centers", k12);
+        //HERE IS A TEST CASE 
+        //CHANGE K AND SEEDING METHOD AS DESIRED
+        //TO SEE ITERATIVE OUTPUT, COMMENT OIN PRINT STATEMENT IN LLOYDS
+        Clustering k = lloyds("Random", set, 12);
+        
+        //CREATE FILES FOR VISUALIZATIONS
+        //File_methods.createClusterCenterFile("k10centers", k);
         
         //File_methods.computeAveragesFile("randomAverages", "Random", set);
     
