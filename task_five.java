@@ -234,7 +234,9 @@ public class task_five {
         //CREATE FILES FOR VISUALIZATIONS
         //File_methods.createClusterCenterFile("k10centers", k);
         
+        //Compute averages for both random and our seed (3 runs)
         //File_methods.computeAveragesFile("randomAverages", "Random", set);
+        //File_methods.computeAveragesFile("ourseedAverages", "OurSeed", set);
     
         
     }
