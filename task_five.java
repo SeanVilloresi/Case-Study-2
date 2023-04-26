@@ -214,6 +214,7 @@ public class task_five {
 
         //Code for getting arrays to put in python visualization 
         //for average iterations over multiple runs  
+        //MAKE SURE LINES 168-170 UNCOMMENTED TO PRINT COST AFTER EACH ITERATION
         // for (int i=0;i<5;i++){
         //     System.out.print("ourseedrun" + i + " = [" );
         //     lloyds("OurSeed", set, 10);
