@@ -10,8 +10,9 @@ k_values = [4,6,8,10,12]
 random_averages = []
 ourSeed_averages = []
 
+##Averages across runs and iterations
 def clusterroundAverages(method):
-    #acquired just by running code
+    #acquired just by running code and copying results(sorry)
      
 
     random0 = [8982, 6959, 5703, 5703, 5704, 5703, 5702, 5704, 5703, 5702]
@@ -24,9 +25,7 @@ def clusterroundAverages(method):
     ourseedrun2 = [82, 57, 57, 54, 53, 50, 48, 51, 50, 51]
     ourseedrun3 = [78, 71, 61, 61, 59, 67, 63, 63, 61, 58]
     ourseedrun4 = [50, 54, 47, 44, 47, 47, 44, 51, 47, 47]
- 
- 
- 
+
     ouravg = []
     randomavg =[]
     xes = [1,2,3,4,5,6,7,8,9,10]
@@ -41,6 +40,7 @@ def clusterroundAverages(method):
     plt.xlabel("Iterations")
     plt.ylabel("Average Cost over 5 Runs")
 
+##Produces our visualizations for our averages over k for both random and our seed
 def graph_Averages():
     with open("randomAverages.txt", 'r') as my_file:
 
@@ -64,8 +64,8 @@ def graph_Averages():
     plt.ylabel("Average Cost over 3 runs")
     
 
-
-def graphk10Centers():
+## Graphs our 12 trajectories returned from our java cluster file
+def graphk12Centers():
     trajectories = {}
     with open("k10centers.txt", 'r') as my_file:
             #print(file)
@@ -89,7 +89,7 @@ def graphk10Centers():
 
 
 
-##Plots a scatterplot of all the points, just used as a check
+##Plots a scatterplot of all the points, just used as a check(yes all 1.3 million)
 def graphAll():
     x_vals = []
     y_vals = []
@@ -108,6 +108,6 @@ def graphAll():
 #clusterroundAverages("Random")
 #plt.legend()
 
-graphk10Centers()
+graphk12Centers()
 #graphAll()
 plt.show()
