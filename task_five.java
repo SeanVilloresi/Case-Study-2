@@ -35,7 +35,8 @@ public class task_five {
     public static Trajectory chooseNextCenter(ArrayList<Trajectory> set, ArrayList<Trajectory> centers){
         double[] distances = new double[set.size()];
         double sumDistances = 0;
-
+        
+        //calculate the distance from each trajectory to every center to determine closest center
         for (int i=0; i<set.size(); i++){
             double minDistance = Double.MAX_VALUE;
             for (Trajectory center : centers) {
@@ -46,8 +47,12 @@ public class task_five {
         distances[i] = minDistance;
         sumDistances += distances[i];
         }
+
+        //apply weights to each trajectory, and uses our double rand as our "choice" 
         double rand = Math.random() * sumDistances;
         double cumulativeSum = 0;
+
+        //essentially the distance that puts us "over" is our randomly chosen one, thus farther distance=higher chance of being picked
         for (int i=0; i< set.size(); i++) {
             cumulativeSum += distances[i];
             if (cumulativeSum >= rand) return set.get(i);          
@@ -58,6 +63,7 @@ public class task_five {
     
     public static ArrayList<Trajectory> ourSeed(ArrayList<Trajectory> set, int k){
         ArrayList<Trajectory> centers = new ArrayList<>();
+        //iteratively builds our arraylist of centers k times
         for (int i= 0; i<k; i++){
             Trajectory temp = chooseNextCenter(set, centers);
             centers.add(temp);
