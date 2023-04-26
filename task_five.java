@@ -232,7 +232,7 @@ public class task_five {
         //TO SEE ITERATIVE OUTPUT, COMMENT OIN PRINT STATEMENT IN LLOYDS
         Clustering k = lloyds("Random", set, 12);
         
-        //CREATE FILES FOR VISUALIZATIONS
+        //CREATE FILES FOR VISUALIZATIONS(for k=12 specifically)
         //File_methods.createClusterCenterFile("k10centers", k);
         
         //Compute averages for both random and our seed (3 runs)
