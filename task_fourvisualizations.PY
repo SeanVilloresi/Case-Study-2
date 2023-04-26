@@ -28,6 +28,7 @@ with open("center2.txt", 'r') as my_file:
         x_coordscenter2.append(x)
         y_coordscenter2.append(y)
 
+##if you wish to visualize simplified, simply add the word "simplified" ahead of every "trajectory" (for all 3 times its stated)
 text_files = glob.glob(os.path.join("trajectory-points", '*.txt'))
 trajectories = {}
 ##read in all the trajectories
