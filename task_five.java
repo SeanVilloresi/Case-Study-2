@@ -214,29 +214,29 @@ public class task_five {
             for(Point p : entry.getValue()){
                 t.points.add(p);
             }
-            t = task_two.TS_greedy(t, 0.03);
+            t = task_two.TS_greedy(t, 0.01);
             set.add(t);
         }
 
             
-        for (int i=0;i<5;i++){
-            System.out.print("ourseedrun" + i + " = [" );
-            lloyds("OurSeed", set, 10);
-            System.out.println("]");
-        }
+        // for (int i=0;i<5;i++){
+        //     System.out.print("ourseedrun" + i + " = [" );
+        //     lloyds("OurSeed", set, 10);
+        //     System.out.println("]");
+        // }
 
-        for (int i=0;i<5;i++){
-            System.out.print("random" + i + " = [" );
-            lloyds("Random", set, 10);
-            System.out.println("]");
-        }
+        // for (int i=0;i<5;i++){
+        //     System.out.print("random" + i + " = [" );
+        //     lloyds("Random", set, 10);
+        //     System.out.println("]");
+        // }
         
-        //Clustering k12 = lloyds("OurSeed", set, 12);
+        Clustering k12 = lloyds("OurSeed", set, 12);
         // for (ArrayList<Trajectory> x : k4.clusters){
         //     System.out.println(x.size());
         // }
         //System.out.print(set.size());
-        //File_methods.createClusterCenterFile("k10centers", k12);
+        File_methods.createClusterCenterFile("k10centers", k12);
         
         //File_methods.computeAveragesFile("randomAverages", "Random", set);
     

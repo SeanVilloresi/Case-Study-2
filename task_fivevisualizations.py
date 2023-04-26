@@ -105,9 +105,9 @@ def graphAll():
     plt.scatter(x_vals, y_vals, alpha=.1)
 
 #graph_Averages()
-clusterroundAverages("Random")
-plt.legend()
+#clusterroundAverages("Random")
+#plt.legend()
 
-#graphk10Centers()
+graphk10Centers()
 #graphAll()
 plt.show()
